@@ -1,4 +1,11 @@
+# vim
 .*.swp
+
+# ruby stuff
 Gemfile.lock
+.bundle
+.sass-cache
+
+# jekyll output
 _site
 
