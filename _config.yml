@@ -29,6 +29,7 @@ permalink: /:year/:month/:day/:title:output_ext
 markdown: kramdown
 kramdown:
   input: GFM
+  smart_quotes: ["apos", "apos", "quot", "quot"]
 
 theme: jekyll-theme-midnight
 #theme: jekyll-theme-slate
