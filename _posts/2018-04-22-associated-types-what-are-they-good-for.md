@@ -1,13 +1,10 @@
 ---
 layout: post
-title:  "Associated types: What are they good for (an honest inquiry)"
+title:  "Associated types: What are they good for?"
+subtitle: "an honest inquiry"
 date:   2018-04-22 15:00:00 -0500
 categories: rust frunk question
 ---
-
-# Associated types: What are they good for?
-<!-- FIXME: This is not how you do subtitles. -->
-#### (an honest inquiry)
 
 I am aware of the distinction between how associated types and type parameters *should* be used:
 
@@ -58,7 +55,7 @@ Implementing traits for HLists generally involves some form of type-level recurs
 - The **recursive case;** this extends the trait to lists of arbitrary length.  It is typically an impl of the form
   ```rust
   impl<Head, Tail> Trait for HCons<Head, Tail>
-  where Tail: Trait, // (note: sometimes this uses different type params for Trait)
+  where Tail: Trait,
   { ... }
   ```
 
@@ -140,9 +137,7 @@ In this case, a unique solution means that `T` is only contained once in the lis
 
 **Fact:** The initial design of [`Coproduct::uninject`](https://docs.rs/frunk_core/0.2.0/frunk_core/coproduct/trait.CoprodUninjector.html) had a *type parameter* for the remainder rather than an associated type. Hardly anyone could even tell the difference; the remainder is always unique, so type inference can always solve for it.  I changed it to an associated type to prevent it from infecting the signatures of other things like [`Coproduct::subset`](https://docs.rs/frunk_core/0.2.0/frunk_core/coproduct/trait.CoproductSubsetter.html), but I am still uncertain as to whether this change conferred any actual *new capabilities.*
 
-[^essay]: If this post were a [five-paragraph essay]()[^lookitup], two of the body paragraphs would be one word long.
-
-[^lookitup]: I'm not going to link wikipedia, look it up your own damn self.
+[^essay]: If this post were a five-paragraph essay, two of the body paragraphs would be one word long.
 
 ---
 

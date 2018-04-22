@@ -1,0 +1,38 @@
+@import "jekyll-theme-midnight.scss";
+@import "rouge-base16-dark-edit.scss";
+
+// Give inline `code` a background because otherwise it looks like
+//   there's funny spacing around it.
+// The class makes sure this only applies to `code` and not ```code```
+// (in the latter, the highlighter-rouge class is on an outer div)
+code.highlighter-rouge {
+  background: #101020;
+}
+
+// make sure the link formatting applies to code in links
+a code {
+  // copied from the `a` formatting in jekyll-theme-midnight
+  color:#ffcc00;
+  font-weight:400;
+  text-decoration:none;
+
+  &:hover {
+    color: #ffeb9b;
+  }
+}
+
+// undo link colorization in title
+a.title-link {
+  color: #e8e8e8;
+}
+
+// hide the GitHub header. The theme CSS does something funny to
+// it to make it hover, and it gets annoying when you follow anchored
+// links because it covers the anchored text.
+//
+// FIXME I'd rather just make it stop hovering, but I'm not sure how yet.
+//       (hiding it like this unfortunately leaves this unsightly blank
+//        void of content when you scroll all the way up)
+#header {
+  display: none;
+}

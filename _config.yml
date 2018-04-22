@@ -22,12 +22,17 @@ url: "https://ExpHP.github.io"
 github_username:  ExpHP
 # twitter_username:
 
+# The default for this includes categories, to which I can only say, *whoozasaywatsnow?*
+permalink: /:year/:month/:day/:title:output_ext
+
 # Build settings
 markdown: kramdown
 kramdown:
   input: GFM
-theme: minima
-#theme: jekyll-theme-slate  # this doesn't have the layouts used in the default template.
+
+theme: jekyll-theme-midnight
+#theme: jekyll-theme-slate
+#theme: minima
 plugins:
   - jekyll-feed
 
