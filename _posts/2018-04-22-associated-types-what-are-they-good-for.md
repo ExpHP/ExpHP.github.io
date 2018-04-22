@@ -13,9 +13,7 @@ and then once it crossed critical mass I just slapped some YAML frontmatter on i
 into the `_posts` directory of "that GitHub pages thing I almost set up last year"
 for a monumental first post.[^another-lie]
 
-[^another-lie]: Actually, that's another lie.  It took me another 7 hours to figure out enough
-about Jekyll, ruby gems, GitHub pages, and CSS to make it presentable, all of which I will forget
-by tomorrow morning.
+[^another-lie]: Actually, that's another lie.  It took me another 7 hours to figure out enough about Jekyll, ruby gems, GitHub pages, and CSS to make it presentable, all of which I will forget by tomorrow morning.
 
 I don't have any sort of comment system set up here (yet).
 Instead, you can reply to [this URLO thread](#).
