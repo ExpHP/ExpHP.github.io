@@ -6,6 +6,23 @@ date:   2018-04-22 15:00:00 -0500
 categories: rust frunk question
 ---
 
+So I figured I'd finally try out that whole "blogging" thing.
+
+...actually, that's a lie.  I just wrote up a really big topic to post on users.rust-lang.org,
+and then once it crossed critical mass I just slapped some YAML frontmatter on it and stuck it
+into the `_posts` directory of "that GitHub pages thing I almost set up last year"
+for a monumental first post.[^another-lie]
+
+[^another-lie]: Actually, that's another lie.  It took me another 7 hours to figure out enough
+about Jekyll, ruby gems, GitHub pages, and CSS to make it presentable, all of which I will forget
+by tomorrow morning.
+
+I don't have any sort of comment system set up here (yet).
+Instead, you can reply to [this URLO thread](#).
+(uh, once I come back to fix that link)
+
+---
+
 I am aware of the distinction between how associated types and type parameters *should* be used:
 
 - Use a **type parameter** when one struct may supportshould be used when a trait could conceivably be implemented multiple times with different types for that type parameter.
