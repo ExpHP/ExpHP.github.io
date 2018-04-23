@@ -22,7 +22,7 @@ Instead, you can reply to [this URLO thread](https://users.rust-lang.org/t/assoc
 
 I am aware of the distinction between how associated types and type parameters *should* be used:
 
-- Use a **type parameter** when one struct may supportshould be used when a trait could conceivably be implemented multiple times with different types for that type parameter.
+- Use a **type parameter** a trait could conceivably be implemented multiple times by the same struct with different types for that type parameter.
 - Use an **associated type** when the type is *determined by* the other type parameters.
 
 but when you really get down to it, it seems the real distinction is a lot more subtle.  In fact, [frunk](https://github.com/lloydmeta/frunk) often uses type parameters in places where *ideally* one would expect it to use associated types (I'll get to that, soon).
