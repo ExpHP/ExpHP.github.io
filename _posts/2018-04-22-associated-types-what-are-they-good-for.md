@@ -16,8 +16,7 @@ for a monumental first post.[^another-lie]
 [^another-lie]: Actually, that's another lie.  It took me another 7 hours to figure out enough about Jekyll, ruby gems, GitHub pages, and CSS to make it presentable, all of which I will forget by tomorrow morning.
 
 I don't have any sort of comment system set up here (yet).
-Instead, you can reply to [this URLO thread](#).
-(uh, once I come back to fix that link)
+Instead, you can reply to [this URLO thread](https://users.rust-lang.org/t/associated-types-what-are-they-good-for/17016).
 
 ---
 
