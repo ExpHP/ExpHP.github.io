@@ -174,7 +174,7 @@ Basically, take those poor, unloved indices that we keep telling the user not to
 
 ```rust
 pub trait IndexOf<T, Index> {
-    fn index_of(&self) -> &Self::Value;
+    fn index_of(&self) -> Index;
 }
 
 pub trait GetAt<Index> {
