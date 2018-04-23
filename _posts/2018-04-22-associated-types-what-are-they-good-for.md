@@ -154,7 +154,17 @@ In this case, a unique solution means that `T` is only contained once in the lis
 
 [^essay]: If this post were a five-paragraph essay, two of the body paragraphs would be one word long.
 
----
+## So what *are* associated types good for today?
+
+With the prior section in mind, what benefits *do* associated types provide over type parameters?  Here is the complete list I can come up with:
+
+* **Cleaner type parameter lists:** They allow methods, traits, and impls to be written with fewer type parameters, and help reduce confusion over the roles each type parameter plays.
+* **Implied bounds.** This one is kind of subtle, but: associated types are one of the few things that have implied bounds today.  If you write `type Assoc: Bound`, then the compiler understands that `<T as Trait>::Assoc: Bound` without you writing it.[^subtle]
+* **Comfort in knowing that the API is usable.**  Even though you can simulate associated types with type parameters, it's up to you to make sure you do not introduce any ambiguities in your set of impls (which will manifest only as *very confusing inference errors* in downstream code).
+
+This is alright, but as far as I can tell they don't make any new things possible. Which brings us to our final stop:
+    
+[^subtle]: Note this breaks down if you write something like `T: Trait<Assoc=U>` where `U` is a generic type parameter, as the compiler will then demand that you write `U: Bound` for the sake of, uh, *something something well-founded,* or idunno.  It's like I said: **_Subtle._**
 
 ## Why do I care?
 
@@ -182,8 +192,15 @@ let b_item = list_b.get_at(index);
 
 ### Are they worth it?
 
-Hey, *that's my line!*  The thing is, I've not yet been able to convince myself that they actually solve any problems. (granted, I haven't put much thought into it yet since I've been saving it for after frunk 0.2.0).  To use this functionality in a generic context you'll still need to mention the indices in where bounds, so what's the difference whether you write `Bs: GetAt<I>` (and use `Bs::Value`) versus `Bs: Get<B, I>` (and let type inference infer `B`)?
+Hey, *that's my line!*
 
-The feature will require plenty of design work (e.g. should `GetAt` be a supertrait of `Get`? Or vice versa? Or neither?) and will result in a number of additional traits and methods for index-based lookup that parallel the existing methods for type-based lookup.  And in the end, it seems that their sole raison d'être will be to allow some type parameters to be replaced with associated types in certain circumstances.  *Those associated types had better be worth it!*
+The thing is, I've not yet been able to convince myself that they actually solve any problems. (granted, I haven't put much thought into it yet since I've been saving it for after frunk 0.2.0, which was just released yesterday).  To use this functionality in a generic context you'll still need to mention the indices in where bounds, so what's the difference whether you write `Bs: GetAt<I>` (and use `Bs::Value`) versus `Bs: Get<B, I>` (and let type inference infer `B`)?
+
+The feature will require plenty of design work (e.g. should `GetAt` be a supertrait of `Get`? Or vice versa? Or neither?) and will result in a number of additional traits and methods for index-based lookup that parallel the existing methods for type-based lookup.  And in the end, it seems that their sole raison d'être will be to allow some type parameters to be replaced with associated types in certain circumstances.
+
+If that's the case, *then those associated types had better be worth it!*
 
 So that's why I am writing; I am simply not certain yet whether reified indices are worth the trouble.
+
+<!-- FIXME should instead do this by sticking something into the `footnotes` div directly, through... hell, I dunno. JS? CSS? -->
+## Fütnotes
