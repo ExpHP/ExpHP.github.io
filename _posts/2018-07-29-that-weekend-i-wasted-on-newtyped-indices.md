@@ -357,7 +357,7 @@ After I realized this, that was the final straw; next Monday, I left it all to r
 
 ## Solutions that don't rely on the type system
 
-Even though it clearly takes far too much effort to thoroughly adopt them, the exercise of *attempting* to adopy newtype indices was an incredible learning experience.  I may have given the wrong impression by focusing on all of the negatives above, but **in reality the index types were wildly successful at describing common usage patterns in my code.**
+Even though it clearly takes far too much effort to thoroughly adopt them, the exercise of *attempting* to adopt newtype indices was an incredible learning experience.  I may have given the wrong impression by focusing on all of the negatives above, but **in reality the index types were wildly successful at describing common usage patterns in my code.**
 
 Some types like `Perm` and `SupercellToken` above gained two index types, and it suddenly became clear to me that they had the properties of mathematical categories. Common mistakes I might make when working with sparse representations vanished as it became unbearably clear that the indices in dense and sparse representations play different roles (similar to covariance versus contravariance).
 
