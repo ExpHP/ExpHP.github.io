@@ -26,6 +26,12 @@ a.title-link {
   color: #e8e8e8;
 }
 
+.footnote {
+    font-weight: bold;
+    font-size: 125%;
+    padding-left: 0.1em;
+}
+
 // hide the GitHub header. The theme CSS does something funny to
 // it to make it hover, and it gets annoying when you follow anchored
 // links because it covers the anchored text.
