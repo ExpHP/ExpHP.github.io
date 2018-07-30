@@ -41,9 +41,9 @@ There are some problems that very broadly apply to virtually any kind of special
 * **Coupling:** If it appears in your public signatures, then code that uses your code needs to know about it.  People that use your code need to learn what it represents.  The cumulative effect of all of this is that each new type or abstraction that appears in a public API makes it feel *heavier,* makes it more difficult to reuse in a different codebase, and makes it less attractive if factored out and published to crates.io.
 * **Interoperability:** *Your new toys won't necessarily play very well with all of your old toys.*  Especially in rust with the coherence rules, generic APIs can only do so much.  In some cases you may need to write compatibility shims, and in some cases you may not be able to use certain things together at all.
 
-Ultimately these are both different manifestations of the same, fundamental, unavoidable trade-off of correctness.  You wanted the compiler to force you to be correct, and *now that is exactly what the compiler is doing!*
+Ultimately these are both different manifestations of the same, fundamental, unavoidable trade-off of correctness.  You wanted the compiler to force you to be correct, and *now that is exactly what the compiler is doing!*[^nominal] It's just that, sometimes, this is a lot more work than expected.
 
-Some of the issues with generic abstractions are partly due to rust's nominal (i.e. locally-checked) type system, and are less problematic in C++'s structural (i.e. duck-typed) type system.  I still prefer rust's system, as I believe it is easier to debug flaws in the design of the abstraction when there's no "bugs at a distance."
+[^nominal]: Some of the issues with generic abstractions are partly due to rust's nominal (i.e. locally-checked) type system, and are less problematic in C++'s structural (i.e. duck-typed) type system.  I still prefer rust's system, as I believe it is easier to debug flaws in the design of the abstraction when there's no "bugs at a distance."
 
 ## A particular example: Newtype Indices
 
