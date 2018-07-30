@@ -372,3 +372,6 @@ Though I have given up on enforcing these things *at large,* the majority of my 
 I know that second bullet point may shock a number of people.  Variable names can be wrong; comments can be out of date; this is why we have a type system, after all!
 
 And I agree!  ...But as far as I can tell, I have taken the pragmatic option.
+
+<!-- FIXME should instead do this by sticking something into the `footnotes` div directly, through... hell, I dunno. JS? CSS? -->
+## Phootnotes
