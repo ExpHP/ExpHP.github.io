@@ -133,10 +133,13 @@ Now, I'm going to be honest.  Making these changes to my codebase felt *positive
 
 ```rust
 impl<Src: Idx, Dest: Idx> Perm<Src, Dest> {
-    /// Compute the `Perm` that, when applied to the input slice, would sort it.
+    /// Compute the `Perm` that, when applied to the input slice,
+    /// would sort it.
     ///
     /// The output index type is newly synthesized.
-    pub fn argsort<T: Ord>(xs: impl AsIndexed<Index=Src, Elem=T>) -> Perm<Src, Dest> {
+    pub fn argsort<T: Ord>(
+        xs: impl AsIndexed<Index=Src, Elem=T>,
+    ) -> Perm<Src, Dest> {
         let xs = xs.as_indexed();
         let mut perm: Indexed<Dest, Vec<Src>> = xs.indices().collect();
         perm.raw.sort_by(|&a, &b| xs[a].cmp(&xs[b]));
@@ -168,7 +171,8 @@ let a = IndexVec::<A>::new();
 let b = IndexVec::<B>::new();
 let zipped = a.into_iter().zip(b);
 
-// constructing one from an iterator will produce any index type out of thin air
+// constructing one from an iterator will produce any index type
+// out of thin air
 let a = IndexVec::<A>::new()
 let b: IndexVec<B> = a.into_iter().collect();
 ```
@@ -195,7 +199,8 @@ I've thought of this many times, and have considered *doing* it many times, and 
 More importantly, **for now, I am adequately serviced by a simple run-time check:**
 
 ```rust
-pub(crate) fn zip_eq<As, Bs>(a: As, b: Bs) -> iter::Zip<As::IntoIter, Bs::IntoIter>
+pub(crate) fn zip_eq<As, Bs>(a: As, b: Bs)
+    -> iter::Zip<As::IntoIter, Bs::IntoIter>
 where
     As: IntoIterator, As::IntoIter: ExactSizeIterator,
     Bs: IntoIterator, Bs::IntoIter: ExactSizeIterator,
@@ -263,7 +268,8 @@ impl ForceConstants {
     // --------------
     // helpers that wrap methods with newtyped indices
 
-    fn oper_indices(&self) -> impl Iterator<Item=OperI> { self.super_deperms.indices() }
+    fn oper_indices(&self) -> impl Iterator<Item=OperI>
+    { self.super_deperms.indices() }
 
     // depermutations in the form of a function that maps sparse indices
     fn rotate_atom(&self, oper: OperI, atom: SuperI) -> SuperI {
@@ -272,8 +278,13 @@ impl ForceConstants {
     }
 
     // (note: lattice_point is wrapped into the supercell)
-    fn atom_from_lattice_point(&self, prim: PrimI, lattice_point: V3<i32>) -> SuperI {
-        SuperI::new(self.sc.atom_from_lattice_point(prim.index(), lattice_point))
+    fn atom_from_lattice_point(
+        &self,
+        prim: PrimI,
+        lattice_point: V3<i32>,
+    ) -> SuperI {
+        let s = self.sc.atom_from_lattice_point(prim.index(), lattice_point);
+        SuperI::new(s)
     }
 
     ...
