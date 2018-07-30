@@ -305,7 +305,7 @@ For that reason, in my initial attempt to introduce newtyped indices, I began fr
 
 #### Bottom-up gradual adoption
 
-Adoption from the bottom-up *is* possible, so long as you can ensure that all previously written code still compiles.  So that's what I did, by introducing a trait with a couple of impls and one or two associated items.
+Adoption from the bottom-up *is* possible, so long as you can ensure that all previously written code still compiles.  So that's what I did, by introducing a trait with a couple of impls and one or two associated items to bridge between `[]/Vec` and `Indexed`.
 
 _...yeah, right!_
 
