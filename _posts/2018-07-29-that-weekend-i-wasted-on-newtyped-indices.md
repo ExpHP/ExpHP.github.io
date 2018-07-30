@@ -232,9 +232,7 @@ Technically, they *can* be!  These recurring patterns correspond to simple mathe
 * The **direct sum** of two index types is a new index type isomorphic to `Either<I, J>`.  It represents the concatenation of two vectors.
 * The **direct product** of two index types is a new index type isomorphic to `(I, J)`.  It represents nested iteration like `flat_map` and outer products.
 
-So akk we gotta do (*cough*) is encode these concepts into the type system, and create types to represent them that implement `Idx`!
-
-Except... oh, that's right.  `Idx` currently assumes the index can be represented as a single `usize`.  I guess we need to restructure it to no longer involve newtype wrappers, and to instead be represented by a wrapper struct with `PhantomData` tags, and then we can probably—
+So *all we gotta do* is encode these concepts into the type system, and create types to represent them that implement `Idx`! Except... oh, that's right.  `Idx` currently assumes the index can be represented as a single `usize`.  I guess we need to restructure it to no longer involve newtype wrappers, and to instead be represented by a wrapper struct with `PhantomData` tags, and then we can probably—
 
 **NOOOPE!!! No no no no no, stop thinking about it THIS SECOND!**  It won't get you anywhere.  It won't make your code better.  It won't prevent any bugs.  It is nothing but an exercise in mental masturbation.  So **stop it. _Now._**
 
