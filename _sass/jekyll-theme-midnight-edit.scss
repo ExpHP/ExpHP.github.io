@@ -41,6 +41,11 @@ a.title-link {
     padding-left: 0.1em;
 }
 
+// otherwise it looks too similar to regular text
+h4 {
+    font-weight: bold;
+}
+
 // hide the GitHub header. The theme CSS does something funny to
 // it to make it hover, and it gets annoying when you follow anchored
 // links because it covers the anchored text.
