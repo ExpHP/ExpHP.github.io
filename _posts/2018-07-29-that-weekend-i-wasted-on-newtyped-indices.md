@@ -51,7 +51,7 @@ Allow me to roll the calendar back a couple of months to visit one particularly 
 
 [^kloc]: Counted using `wc -l`, so this is of course a dire overestimate.
 
-### The "problem"
+## The "problem"
 
 I use the struct-of-arrays layout a lot in my code; not for performance concerns, but because I find it often makes data dependencies in the code a lot clearer, and makes it easier to work with things that might not be there (e.g. I can have an `Option<Vec<T>>` instead of an `Option<T>` field on some composite type).
 
@@ -78,7 +78,7 @@ In the arguments to this function there are four slices, but **the second two ar
 
 Stuff like this is ubiquitous throughout my codebase, and I always wanted to do something about it.
 
-### The "solution"
+## The "solution"
 Enter newtyped indices.  `rustc` has a type it uses which is [a vector with a custom index type](https://github.com/rust-lang/rust/blob/75af9df71b9eea84f281cf7de72c3e3cc2b02222/src/librustc_data_structures/indexed_vec.rs).  I copied this into my codebase and adjusted it a bit for my purposes, marking `Idx` unsafe, stripping away `u32` support, and adding support for slices:
 
 ```rust
@@ -159,9 +159,9 @@ impl<Src: Idx, Dest: Idx> Perm<Src, Dest> {
 
 IIRC, in the process, I even found one bug!
 
-### Problems created by the solution
+## Problems created by the solution
 
-#### Iterators
+### Iterators
 
 The `IndexVec` type used by rustc includes custom methods for producing enumerated iterators, but does not otherwise do anything very special with iterators.  The end result is that **using iterators with `IndexVec` requires giving up type safety of indices:**
 
@@ -217,7 +217,7 @@ macro_rules! zip_eq {
 
 For me, this is sufficient because it is rare for two different index types to correspond to the same length.  So I use `zip_eq!` religiously, and what makes it even better than `IndexedIterator` is that it works just as well on code that hasn't adopted newtype indices.
 
-#### Direct sums and direct products (a.k.a. bad ideas beget more bad ideas)
+### Direct sums and direct products (a.k.a. bad ideas beget more bad ideas)
 
 Here's a wild one.  Suppose that I completely lost my mind and actually went through with implementing index types on iterators.
 
@@ -242,13 +242,13 @@ So *all we gotta do* is encode these concepts into the type system, and create t
 [^algebra]: Scratch the prior footnote. The phrase "an algebra" is far worse.
 
 
-#### Supporting code that hasn't adopted newtype indices
+### Supporting code that hasn't adopted newtype indices
 
 When I tried to incorporate newtype indices everywhere, I wanted to make sure they could be **gradually adopted.**  I.e., I wanted to be able to change small, localized portions of the code over at a time without having a wide-reaching impact all over the code base.  This was to ensure that my efforts did not just amount to another "wasted weekend;" come Monday, I'd still have a perfectly-working code base and I wouldn't need to git stash anything.
 
 But how should I do it?
 
-##### Top-down gradual adoption
+#### Top-down gradual adoption
 
 One thing you can do is start with the highest level code and introduce newtype indices there.  But this is difficult.  If you introduce newtype indices in the highest level code first, you'll just repeatedly run into things that don't yet support them, and you'll be forced to either update those things, or to temporarily throw away that type information.
 
@@ -303,7 +303,7 @@ So really, top-down adoption doesn't work.
 
 For that reason, in my initial attempt to introduce newtyped indices, I began from the bottom up.
 
-##### Bottom-up gradual adoption
+#### Bottom-up gradual adoption
 
 Adoption from the bottom-up *is* possible, so long as you can ensure that all previously written code still compiles.  So that's what I did, by introducing a trait with a couple of impls and one or two associated items.
 
@@ -345,7 +345,7 @@ B-b-but, no worries right? It's only temporary, right?  Once I migrate all of my
 
 Well, unfortunately... **maybe I don't _want_ to convert _everything_.**
 
-##### It's not just temporary
+#### It's not just temporary
 
 Remember the issue of coupling?  Here's the thing.  Maybe, *just maybe,* I would like for some of my code to one day be useful for another being on this Earth. For that to happen, I have to make people *want* to use it.  And for *that* to happen, people need to be able to look at the signatures of my public API and feel vaguely at home.
 
@@ -355,7 +355,7 @@ And so it seemed that some non-Indexed code was here to stay, and hence these aw
 
 After I realized this, that was the final straw; next Monday, I left it all to rot in an abandoned git branch, and resumed working largely without them.
 
-### Solutions that don't rely on the type system
+## Solutions that don't rely on the type system
 
 Even though it clearly takes far too much effort to thoroughly adopt them, the exercise of *attempting* to adopy newtype indices was an incredible learning experience.  I may have given the wrong impression by focusing on all of the negatives above, but **in reality the index types were wildly successful at describing common usage patterns in my code.**
 
