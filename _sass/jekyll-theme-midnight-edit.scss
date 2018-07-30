@@ -7,6 +7,15 @@
 // (in the latter, the highlighter-rouge class is on an outer div)
 code.highlighter-rouge {
   background: #101020;
+
+  // decrease from the obscenely large "6px" that the style comes with
+  // (padding is extra space INSIDE the colored box)
+  padding-left: 3px;
+  padding-right: 3px;
+  // likewise, formerly 4px
+  // (margin is extra space AROUND the colored box)
+  margin-left: 0px;
+  margin-right: 0px;
 }
 
 // make sure the link formatting applies to code in links
