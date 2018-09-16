@@ -72,9 +72,10 @@ Now, that's all fine and dandy, but... **_how?_** When did I learn to write thin
 
 I honestly *could not tell you* what I thought `'a` represented in the above code.<br/>
 I truly *could not explain to you* my reasoning behind where it appears.<br/>
-I was merely capable of putting it in the right places on *intuition*.
 
-What a sorry set of circumstances to have come so far and still understand **nothing!**
+It was merely the case that, after two years of writing Rust, I *somehow* knew the places where it belonged.  Was it habit?  Operant conditioning?!
+
+What a sorry set of circumstances to have come so far yet still understand **nothing!**
 
 ### A light at the end of the tunnel
 
