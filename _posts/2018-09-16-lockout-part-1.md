@@ -64,7 +64,7 @@ pub trait PotentialBuilder<Meta = Element>: Send + Sync {
 
 [^atrocity]:  I later decided to remove lifetimes from this atrocity by sticking `Rc` all over the codebase.  Just because you *can* write the lifetimes doesn't mean you should...
 
-Mind, this is a fairly unconventional use of lifetimes! It's a trait object parameterized over a lifetime, so that the implementations can have borrowed data... but it also uses `where Self: 'a` bounds rather than the more common form `trait PotentialBuilder<'a>`.  There is a reason for this, but it is... *nuanced.*[^nuanced]
+Mind, this is a fairly unconventional use of lifetimes! It's a trait object parameterized over a lifetime, so that the implementations can have borrowed data... but it also uses `where Self: 'a` bounds rather than the more common form `trait PotentialBuilder<'a>`.  (There is a reason for this, but it is... *nuanced.*[^nuanced])
 
 [^nuanced]: In short, [the alternative would have had problems with invariance](https://play.rust-lang.org/?gist=83450ca19fbe09e58344c5292188091c&version=stable&mode=debug&edition=2015) due to my decision to use trait objects.
 
