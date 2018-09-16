@@ -104,8 +104,8 @@ Lifetimes can have relationships between them, expressed like trait bounds.
 
 ### Elision
 
-Lifetimes can often be left out of a function signature, to be filled in by defaults.  This process is known as **lifetime elision.**  
-  + The [three basic rules](https://doc.rust-lang.org/nomicon/lifetime-elision.html) are straightforward; **This blog series will assume you know them.**
+Lifetimes can often be left out of a function signature, to be filled in by defaults.  This process is known as **lifetime elision.**
+  + The [three basic rules](https://doc.rust-lang.org/book/first-edition/lifetimes.html#lifetime-elision) are straightforward; **This blog series will assume you know them.**
   + There's some additional possibly tricky bits around `dyn Trait` and `impl Trait`; I'll always be explicit here.
 
 ### Subtyping
