@@ -187,14 +187,19 @@ I'll admit, it doesn't sound unreasonable.  So, let's take that idea and give it
 
 **Example 1:**
 ```rust
+struct Struct(Vec<i32>);
+
 impl Struct {
     fn iter(&self) -> impl Iterator<Item=i32> + 'static {
-        // ERROR: Does not live long enough
+        // error: cannot infer an appropriate lifetime
         self.0.iter().cloned()
     }
 }
 ```
-This gives an error, but does the error make sense?  Let's see... we say that the output type is `impl Iterator<Item=i32> + 'static`, which is a type that satisfies `Self: 'static`. In other words, we are promising that the output type is allowed to live forever.  However we are borrowing from `&self`, which has any arbitrary lifetime `&'a`, so in reality our output can live no longer than `'a`.  Okay, seems legit.
+
+This gives an error, though the precise details of the error differ by compiler version and with/without NLL; we won't fret about them because the real question is, *does it make sense for an error to occur in our revised mental model?*
+
+Let's see... we say that the output type is `impl Iterator<Item=i32> 'static`, which is a type that satisfies `Self: 'static`. In other words, we are promising that the output type is allowed to live forever.  However we are borrowing from `&self`, which has any arbitrary lifetime `&'a`, so in reality our output can live no longer than `'a`.  Okay, seems legit.
 
 **Example 2:**
 ```rust
@@ -210,9 +215,9 @@ This time, we say that the output is a type which satisfies `Self: 'a`.  Okay; w
 ```rust
 impl Struct {
     fn iter<'a>(&'a self) -> &'a (impl Iterator<Item=i32> + 'a) {
-        // ERROR: borrowed value does not live long enough
+        // error[E0597]: borrowed value does not live long enough
         &self.0.iter().cloned()
-    } // temporary is freed here
+    } // temporary value only lives until here
 }
 ```
 Okay, so now we're trying to return a borrow of a temporary inside the function body.  Even though we know that the *maximum* lifetime for values of this type is `'a`, this fails because the maximum lifetime... or, erm... I guess just *the* lifetime for *this particular value* is less than `'a`.
