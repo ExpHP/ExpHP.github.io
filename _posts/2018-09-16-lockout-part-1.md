@@ -253,6 +253,8 @@ Stay tuned, because many questions remain, with exciting answers to be revealed:
 * **Why is the blog series called "Lockout?"**
 * **Who is writing these questions?!**
 
+**Update:** [Part 2 is out!]({% post_url 2018-09-18-lockout-part-2 %})
+
 ## Thoughts? Corrections?
 
 I'm trying to get [staticman](https://staticman.net/) set up for comments, but it doesn't seem to be acknowledging my Github invite at the moment.  For now, you can comment on [this URLO thread](https://users.rust-lang.org/t/blog-post-lockout-everything-you-know-about-lifetimes-is-wrong/20483).
