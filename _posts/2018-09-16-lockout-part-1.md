@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Lockout, Part 1: Everything you know about lifetimes is wrong."
-date:   2018-09-16 20:00:00 -0500
+date:   2018-09-16 12:00:00 -0500
 categories: rust series
 ---
 
