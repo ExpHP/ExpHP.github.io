@@ -1,5 +1,6 @@
 @import "jekyll-theme-midnight.scss";
 @import "rouge-base16-dark-edit.scss";
+@import "figures.scss";
 
 // Give inline `code` a background because otherwise it looks like
 //   there's funny spacing around it.
@@ -44,6 +45,37 @@ a.title-link {
 // otherwise it looks too similar to regular text
 h4 {
     font-weight: bold;
+}
+
+// The theme puts bottom margins on a bunch of stuff.
+// They mostly just make nested <ul> look like horseshit,
+// but they do make headings look nice.
+//
+// Alas, if we want to do anything about the ugly cases, we can't just
+// fix those specifically with CSS because there is no "preceding sibling"
+// selector.  Instead, we must:
+//
+// * Remove all of the bottom margins defined by the style.
+// * Use "next sibling" selectors to whitelist desirable cases,
+//   bringing them back as top margins.
+ul,ol,table,dl {
+    margin: 0;
+}
+
+p,pre {
+    margin: 20px 0 0 0;
+}
+
+h3 + p,
+h3 + pre,
+{
+    margin-top: 10px; // smaller gap
+}
+
+p + *,
+ul + :not(li),
+{
+    margin-top: 20px;
 }
 
 // hide the GitHub header. The theme CSS does something funny to

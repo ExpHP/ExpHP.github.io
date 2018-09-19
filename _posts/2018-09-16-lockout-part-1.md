@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Lockout, Part 1: Everything you know about lifetimes is wrong."
-date:   2018-09-16 12:00:00 -0500
+date:   2018-09-16 20:00:00 -0500
 categories: rust series
 ---
 
@@ -9,7 +9,8 @@ Well, hello again!  This is going to be part of a blog series on a new way to lo
 
 **Lockout**
 
-* **Part 1 --- Everything you know about lifetimes is wrong.**  (You are here!)
+* **Part 1 --- Everything you know about lifetimes is wrong.** --- lifetimes are not... *lifetimes!*
+* **Part 2 --- [And nary a function to be found]({% post_url 2018-09-18-lockout-part-2 %})** --- we learn to think like a borrow checker
 * **Part 2 --- TBA**
 
 ---
@@ -118,18 +119,20 @@ Rust has a subtyping mechanism that deals exclusively with lifetimes.
     + **covariant** in `T` if `X<Subtype>` is a subtype of `X<Supertype>`
     + **contravariant** in `T` if `X<Supertype>` is a subtype of `X<Subtype>`
     + **invariant** in `T` if neither are true.
-+ A summary of all variances: *(written with help from [the nomicon](https://doc.rust-lang.org/nomicon/subtyping.html))*
-    + The vast majority of types are covariant in most or all of their type parameters.  We'll focus mainly on exceptions to this or noteworthy cases.
-    + `&'a A` is covariant in both `'a` and `A`.
-    + `&'a mut A` is covariant in `'a` and **invariant** in `A`.
-    + `fn(B) -> R` is **contravariant** in `B` and covariant in `R`. <br />
-      **No other primitive type is contravariant!**
-    + `<S as Trait<'t, T>>::Assoc` is **invariant** in `S`, `'t`, and `T`.[^experimentation]
-    + `dyn Trait<'t, T> + 'a` is covariant in `'a` and **invariant** in `'t` and `T`.[^experimentation]
-    + `*const T` is covariant in `T`, while `*mut T` is **invariant**.
-    + Types with interior mutability (`Cell<T>`, `Mutex<T>`, ...) are **invariant** in `T`.
-    + `for<'a> fn(&'a T)` is... uhh... a trick question!
-+ *There's something else I'm dying to say here, but that'll be in a future part.* =D
+
+A summary of all variances: *(written with help from [the nomicon](https://doc.rust-lang.org/nomicon/subtyping.html))*
++ The vast majority of types are covariant in most or all of their type parameters.  We'll focus mainly on exceptions to this or noteworthy cases.
++ `&'a A` is covariant in both `'a` and `A`.
++ `&'a mut A` is covariant in `'a` and **invariant** in `A`.
++ `fn(B) -> R` is **contravariant** in `B` and covariant in `R`. <br />
+    **No other primitive type is contravariant!**
++ `<S as Trait<'t, T>>::Assoc` is **invariant** in `S`, `'t`, and `T`.[^experimentation]
++ `dyn Trait<'t, T> + 'a` is covariant in `'a` and **invariant** in `'t` and `T`.[^experimentation]
++ `*const T` is covariant in `T`, while `*mut T` is **invariant**.
++ Types with interior mutability (`Cell<T>`, `Mutex<T>`, ...) are **invariant** in `T`.
++ `for<'a> fn(&'a T)` is... uhh... a trick question!
+
+*There's something else I'm dying to say here, but that'll be in a future part.* =D
 
 [^experimentation]: These are based on experimentation, as the the page on variance in the nomicon does not mention trait objects or associated types.
 

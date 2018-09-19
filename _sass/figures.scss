@@ -1,0 +1,24 @@
+div.figure {
+    border-radius: 25px;
+    padding: 30px;
+    width: 40%;
+    // horizontal centering.  Don't do "margin: 0 auto" because it will override
+    // margins set by "next sibling" selectors
+    margin-left: auto;
+    margin-right: auto;
+
+    img {
+        margin: 0 auto; // horizontally centered
+        width: 100%;
+        display: block;
+    }
+}
+
+// transparent figures that were designed for light backgrounds
+div.figure.light {
+    background: #eed9b0;
+}
+
+div.figure.dark {
+    // use main background
+}
