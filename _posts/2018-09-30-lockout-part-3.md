@@ -221,15 +221,11 @@ This example looks a bit noisy,[^lot-going-on] but the basic point is that our u
 [^lot-going-on]: ...sorry about that! In all fairness, I probably could have cut this example after `(1)`, but I've been making it a point to ensure that all unsoundness examples end in Undefined Behavior; this way, nobody gets distracted by examples that are "fixed by NLL."
 
 * At (1), well... this is allowed now! `borrow`, `reborrow_1`, and `reborrow_2` all simply hold the same ref-counted write-lock on `boxy`.
-* At (2), we haven't really specified what locks are held by `&mut **reborrow_1` (and thereby `int_ref`), but...
-  * Per our current constitution, the only locks that it could conceivably hold are:
-    * a new lock on `reborrow_1`
-    * the refcounted lock of `boxy` held by `reborrow_1`
-  * Just for the sake of argument, we will suppose it holds **both of these locks** for now.
+* At (2), we haven't really specified what locks are held by `&mut **reborrow_1` (and thereby `int_ref`), but per our current constitution, the only locks that it conceivably *could* hold are __(a)__ a new lock on `reborrow_1`, and __(b)__ the refcounted lock of `boxy` held by `reborrow_1`. For the sake of argument, we will suppose it holds **both of these locks** for now.
 * At (3), `boxy` is indirectly overwritten through `reborrow_2`.  <br />
-  Currently, this only locks `reborrow_2` for writing, so it is allowed.
+  Currently, this only tests `reborrow_2` for writing, so it is allowed.
 
-The trouble is, how can we make the usage of `reborrow_1` and `reborrow_2` conflict?  They both only hold a lock on `boxy`!  One might naively say that the assigment at (3) should test `boxy` for writing, to conflict with the lock held by `reborrow_1`... but that would also conflict with the lock held by `reborrow_2`! (so doing this would in fact forbid *all* statements of the form `*ptr = value`!)
+How can we make the usage of `reborrow_1` and `reborrow_2` conflict?  Thing is, they both only hold a lock on `boxy`!  One might naively say that the assigment at (3) should test `boxy` for writing, to conflict with the lock held by `reborrow_1`... but that would also conflict with the lock held by `reborrow_2`! (doing this would in fact forbid *all* statements of the form `*ptr = value`!)
 
 ### Inspiration from rustc
 
