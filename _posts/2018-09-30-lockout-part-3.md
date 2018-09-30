@@ -331,7 +331,7 @@ Well, crud.  Looks like we still gotta fix this.
 And also... wait a second... <br />
 did I just say that `&*boxy` doesn't lock `boxy`?  Doesn't that mean... ahh, crap.
 
-### One final surprise: `&T` are `&mut T` must be special!
+### One final surprise: `&T` and `&mut T` must be special!
 
 ```rust
 fn bad_box_reborrow() -> &i32 {
