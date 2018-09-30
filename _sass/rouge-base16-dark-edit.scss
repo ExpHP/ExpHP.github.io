@@ -5,10 +5,13 @@
 */
 .highlight table td { padding: 5px; }
 .highlight table pre { margin: 0; }
+
+$primary-hl-color: #d0d0d0;
+
 .highlight {
-  color: #d0d0d0;
+  color: $primary-hl-color;
   .w {
-    color: #d0d0d0;
+    color: $primary-hl-color;
   }
   .err {
     color: #151515;
@@ -30,7 +33,7 @@
   }
   .p, .pi {
     // braces and parentheses?
-    color: #d0d0d0;
+    color: $primary-hl-color;
   }
   .gi {
     color: #90a959;
@@ -85,5 +88,13 @@
   }
   .ss {
     color: #90a959;
+  }
+}
+
+// Rust highlighting frequently falsely highlights field access as a syntax error
+.language-rust .highlight {
+  .err {
+    color: $primary-hl-color;
+    background-color: transparent;
   }
 }
