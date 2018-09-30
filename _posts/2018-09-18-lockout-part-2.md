@@ -11,7 +11,8 @@ This is part of a blog series on working towards an intuitive mental model for l
 
 * **Part 1 --- [Everything you know about lifetimes is wrong.]({% post_url 2018-09-16-lockout-part-1 %})** --- ceci n'est pas un lifetime
 * **Part 2 --- And nary a function to be found** --- we learn to think like a borrow checker
-* **Part 3 --- TBA**
+* **Part 3 --- [Really reborrowing]({% post_url 2018-09-30-lockout-part-3 %})** --- declaring a constitution and sticking to it
+* **Part 4 --- TBA**
 
 ---
 
@@ -306,6 +307,7 @@ To rephrase, it seems that *all of the situations considered above can be accura
 
 [^box-new]: `Box::new` was magic and didn't count, okay?  We've been over this!
 
+**Update:** [Part 3 is out!]({% post_url 2018-09-30-lockout-part-3 %})
 
 ## Comments and corrections
 
