@@ -32,7 +32,7 @@ Part 2 introduced a whole bunch of rules, but from now onwards I'd really like t
 
 ### Our constitution
 
-These are the extremely high-level rules that decide what form the rest of the rules are allowed to take; the basic set of concepts that our borrow checker relies on.  They decide what kind of data we're allowed to care about (values? types?), and what kind of reasoning we're allowed to perform.
+These are the extremely high-level rules that decide what form the rest of the rules are allowed to take.  They decide what kind of data we're allowed to care about (values? types?), and what kind of reasoning we're allowed to perform.
 
 **These are the rules that we're really interested in exploring!**  Each new concept or mode of analysis we add may enable us to borrow check a greater subset of Rust. As will eventually be shown, embedding information into types solves a great deal of problems, but it is fascinating to discover the boundaries of what can be solved without it!
 
@@ -50,7 +50,7 @@ Notably, our constitution does not even *care* about types.  For this reason, I 
 
 ### The implementation
 
-The bolded terms in our constitution above are our vocabulary; the fundamental concepts our borrow checker is based on.  The goal of the implementation is to precisely define these terms, and they are frequently modified as we attempt to discover whether or not our constitution is even sufficient.
+The bolded terms in our constitution above are our vocabulary, and the goal of the implementation is to define them.  These rules are far more malleable, and we will frequently modify them in an attempt to discover whether our constitution can even *work.*
 
 When we last left off, our constitution seemed to be working pretty well!  Almost all of our problems could be solved through small adjustments to the implementation.  By the end, it looked like this:
 
