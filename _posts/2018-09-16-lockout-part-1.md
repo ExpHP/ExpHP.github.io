@@ -9,10 +9,12 @@ Well, hello again!  This is going to be part of a blog series on a new way to lo
 
 **Lockout**
 
-* **Part 1 --- Everything you know about lifetimes is wrong.** --- lifetimes are not... *lifetimes!*
-* **Part 2 --- [And nary a function to be found]({% post_url 2018-09-18-lockout-part-2 %})** --- we learn to think like a borrow checker
-* **Part 3 --- [Really reborrowing]({% post_url 2018-09-30-lockout-part-3 %})** --- declaring a constitution and sticking to it
-* **Part 4 --- TBA**
+* **Introduction**
+    * **Part 1 --- Everything you know about lifetimes is wrong.**
+* **A borrow checker without lifetimes**
+    * **Part 2 --- [And nary a function to be found]({% post_url 2018-09-18-lockout-part-2 %})** --- we learn to think like a borrow checker
+    * **Part 3 --- [Really reborrowing]({% post_url 2018-09-30-lockout-part-3 %})** --- declaring a constitution and sticking to it
+    * **Part 4 --- TBA**
 
 ---
 
