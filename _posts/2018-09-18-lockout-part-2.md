@@ -3,18 +3,14 @@ layout: post
 title:  "Lockout, Part 2: And nary a function to be found"
 date:   2018-09-18 14:00:00 -0500
 categories: rust series
+# used for ToC generation
+series: lockout
+series-part-id: 2
 ---
 
 This is part of a blog series on working towards an intuitive mental model for lifetimes in Rust.
 
-**Lockout**
-
-* **Introduction**
-    * **Part 1 --- [Everything you know about lifetimes is wrong.]({% post_url 2018-09-16-lockout-part-1 %})**
-* **A borrow checker without lifetimes**
-    * **Part 2 --- And nary a function to be found** --- we learn to think like a borrow checker
-    * **Part 3 --- [Really reborrowing]({% post_url 2018-09-30-lockout-part-3 %})** --- declaring a constitution and sticking to it
-    * **Part 4 --- TBA**
+{% include series/lockout-toc.html %}
 
 ---
 
@@ -122,7 +118,7 @@ For its brevity, the above code makes a fair number of locks:
 
 We can visualize this; below, the vertical axis is control flow through the function, the blue box represents the read-lock held by `borrow`, and the blue and red lines represent briefly-acquired read- and write-locks.
 
-<div class="figure light"><img src="/assets/img/post/lockout/borrows-1.svg" /></div>
+<div class="figure light small"><img src="/assets/img/post/lockout/borrows-1.svg" /></div>
 
 **Our borrow checker rejects this code because the write-lock of `boxy` created on line 2 conflicts with the existing read-lock held by `borrow`.**  Good.
 
@@ -143,7 +139,7 @@ Hmm. This should be allowed... but is it?  Let's see:
 * Line 3 briefly locks `b` for reading.
 * At the closing brace, `b`, `a`, and `boxy` are deinitialized, in that order.
 
-<div class="figure light"><img src="/assets/img/post/lockout/i-suck-at-inkscape.svg" alt="I suck far too much at inkscape to make another one of those images."/></div>
+<div class="figure light small"><img src="/assets/img/post/lockout/i-suck-at-inkscape.svg" alt="I suck far too much at inkscape to make another one of those images."/></div>
 
 No conflicts here!  It appears that, currently, reborrowing Just Works.™  Let's try to keep it that way!
 

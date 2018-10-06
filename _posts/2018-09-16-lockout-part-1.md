@@ -3,18 +3,13 @@ layout: post
 title:  "Lockout, Part 1: Everything you know about lifetimes is wrong."
 date:   2018-09-16 12:00:00 -0500
 categories: rust series
+series: lockout
+series-part-id: 1
 ---
 
 Well, hello again!  This is going to be part of a blog series on a new way to look at lifetimes in Rust's type system. I hope to cover some advanced aspects of lifetimes that are seldom discussed in the open, and my goal is ultimately to help convey new intuitions about how to use them correctly.
 
-**Lockout**
-
-* **Introduction**
-    * **Part 1 --- Everything you know about lifetimes is wrong.**
-* **A borrow checker without lifetimes**
-    * **Part 2 --- [And nary a function to be found]({% post_url 2018-09-18-lockout-part-2 %})** --- we learn to think like a borrow checker
-    * **Part 3 --- [Really reborrowing]({% post_url 2018-09-30-lockout-part-3 %})** --- declaring a constitution and sticking to it
-    * **Part 4 --- TBA**
+{% include series/lockout-toc.html %}
 
 ---
 

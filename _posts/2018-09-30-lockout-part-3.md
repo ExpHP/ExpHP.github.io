@@ -3,18 +3,14 @@ layout: post
 title:  "Lockout, Part 3: Really reborrowing"
 date:   2018-09-30 14:30:00 -0400
 categories: rust series
+# used for ToC generation
+series: lockout
+series-part-id: 3
 ---
 
 This is part of a blog series on working towards an intuitive mental model for lifetimes in Rust.
 
-**Lockout**
-
-* **Introduction**
-    * **Part 1 --- [Everything you know about lifetimes is wrong.]({% post_url 2018-09-16-lockout-part-1 %})**
-* **A borrow checker without lifetimes**
-    * **Part 2 --- [And nary a function to be found]({% post_url 2018-09-18-lockout-part-2 %})** --- we learn to think like a borrow checker
-    * **Part 3 --- Really reborrowing** --- declaring a constitution and sticking to it
-    * **Part 4 --- TBA**
+{% include series/lockout-toc.html %}
 
 ---
 
@@ -271,16 +267,21 @@ For our purposes, __`int` and `*borrow` are considered to be distinct lockables,
 
 This requires a drastic revision of our rules about when locks are created.  I'll try my best to write what I think the new rules should be.  Please don't feel guilty if your eyes begin to glaze over reading it; this won't be on the test!
 
-Locks are now created as follows.  Whenever you see "`lockable` (and `*lockable`...)," it includes `**lockable` and so on.
+<span class="anchor" id="deref-lock-rules"></span>Locks are now created as follows.  Whenever you see "`lockable` (and `*lockable`...)," it includes `**lockable` and so on.
 
 * moving or copying a value duplicates its locks; consider them refcounted.
+* a copy from `local` (or `*local`...) tests `local` (and `*local`...) for reading.
+    * To clarify my compressed notation: <br/>
+      A copy from `local` tests `local` (and `*local`...) for reading. <br/>
+      A copy from `*local` tests `local` (and `*local`...) for reading. <br/>
+      A copy from `**local` tests `local` (and `*local`...) for reading. <br/>
+      ...
+* a move from `local` (or `*local`...[^box-move]) tests `local` (and `*local`...) for writing.
 * `&local` tests `local` (and `*local`...) for reading, and holds a brand new read-lock on `local`.
 * `&*local` (or `&**local`...) tests `local` (and `*local`...) for reading, holds a brand new read-lock on `*local` (or `**local`...), **and duplicates all locks held by `local`**.
 * If you do `&mut` instead of `&`, then `s/read/write/g`.
 * a literal tuple or struct holds the union of all locks held by the input fields.
 * when branching paths of control flow merge, a value holds the union of all locks that it would have held after each individual path.
-* a copy from `local` (or `*local`...) tests `local` (and `*local`...) for reading.
-* a move from `local` (or `*local`...[^box-move]) tests `local` (and `*local`...) for writing.
 * `local = x;` (or `*local = x;`...) tests `local` (and `*local`...) for writing.
 * deinitialization tests `local` __(but not `*local`!)__ for writing.
 

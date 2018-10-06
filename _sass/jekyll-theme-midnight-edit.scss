@@ -2,6 +2,22 @@
 @import "rouge-base16-dark-edit.scss";
 @import "figures.scss";
 
+// colors copied from jekyll-theme-midnight
+$link-color: #ffcc00;
+$link-color-hover: #ffeb9b;
+$text-color: #f0e7d5;
+$h-color: #e8e8e8;
+$h3-color: #b6b6b6;
+$code-color: #efefef;
+
+// some custom colors of our own
+$bold-color: #c7c7ec;
+$h4-color: #c7c7ec;
+
+h4 {
+    color: $h4-color;
+}
+
 // Give inline `code` a background because otherwise it looks like
 //   there's funny spacing around it.
 // The class makes sure this only applies to `code` and not ```code```
@@ -23,7 +39,6 @@ code.highlighter-rouge {
 a code {
   // copied from the `a` formatting in jekyll-theme-midnight
   color:#ffcc00;
-  font-weight:400;
   text-decoration:none;
 
   &:hover {
@@ -31,14 +46,28 @@ a code {
   }
 }
 
-// undo link colorization in title
-a.title-link {
-color: #e8e8e8;
+// NOTE: The theme stylesheet has this:
+//
+//     b, strong {
+//         font-family: 'OpenSansBold';
+//         font-weight: normal;
+//     }
+//
+// I don't understand why the theme author did this. While it does make
+// normal text in <strong> bold, it fails to affect text inside <code>,
+// which looks weird.
+strong {
+    font-weight: bold;
+}
+
+// undo link colorization in headings
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+    color: inherit;
 }
 
 // Give bold a slight accent.
 strong {
-  color: #c7c7ec;
+    color: $bold-color;
 }
 
 .footnote {
@@ -80,6 +109,7 @@ h3 + pre,
 p + *,
 ul + :not(li),
 div.highlighter-rouge + *,
+div.figure + *,
 {
     margin-top: 20px;
 }
@@ -92,5 +122,20 @@ div.highlighter-rouge + *,
 //       (hiding it like this unfortunately leaves this unsightly blank
 //        void of content when you scroll all the way up)
 #header {
-  display: none;
+    display: none;
+}
+
+// Custom permalinks. These should be empty spans at the beginning of a paragraph.
+// It is a span rather than a div so that kramdown puts them inside the <p>.
+//
+// Thankfully this seems to fit neatly in the pre-existing gutter on
+// smaller displays.
+span.anchor {
+    display: inline-block;
+
+    margin-left: -20px;
+    margin-right: 4px;
+
+    position: relative;
+    top: 2px;
 }

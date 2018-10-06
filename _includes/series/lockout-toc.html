@@ -1,0 +1,46 @@
+{%- comment -%}{% raw %}
+
+  Generates the ToC for the Lockout! series.
+
+  Liquid templates suck.
+
+{% endraw %}{%- endcomment -%}
+
+<p><strong>Lockout</strong></p>
+
+<ul>{% for group in site.data.series.lockout %}
+  <li>{{ group.heading }}<ul>
+    {%- for item in group.items %}
+      <li>
+        {%- comment -%}{% raw %}
+          get the post url
+
+          can't use a liquid variable in {% post_url %} so we have to
+          do this silly O(N) lookup. Every. Time.
+        {% endraw %}{%- endcomment -%}
+
+        {%- assign item_link_begin = '' -%}
+        {%- assign item_link_end = '' -%}
+        {%- for site_post in site.posts -%}
+          {%- if
+            site_post.series == page.series
+            and site_post.series-part-id == item.series-part-id
+            and site_post.series-part-id != page.series-part-id
+          -%}
+            {%- capture item_link_begin -%}
+              <a href="{{ site_post.url }}">
+            {%- endcapture -%}
+            {%- assign item_link_end = '</a>' -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor %}
+        <strong>
+          Part {{ item.series-part-id }}
+          — {{ item_link_begin }}{{ item.title }}{{ item_link_end }}
+        </strong> {% if item.phrase -%} — {{ item.phrase }} {%- endif %}
+      </li>
+    {%- endfor %}
+    </ul>
+  </li>
+{%- endfor %}
+</ul>
