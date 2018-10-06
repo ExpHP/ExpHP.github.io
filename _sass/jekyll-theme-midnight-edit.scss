@@ -60,8 +60,24 @@ strong {
     font-weight: bold;
 }
 
-// undo link colorization in headings
-h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+// undo link colorization in section headings unless the user
+// tries to interact with them.
+//
+// Limited to post-content because I want the links to posts on the front page
+// to be colored still.
+.post-content h1 a:not(:hover),
+.post-content h2 a:not(:hover),
+.post-content h3 a:not(:hover),
+.post-content h4 a:not(:hover),
+.post-content h5 a:not(:hover),
+.post-content h6 a:not(:hover),
+{
+    color: inherit;
+}
+
+// don't color the blog title which links to the front page
+a.title-link:not(:hover)
+{
     color: inherit;
 }
 
