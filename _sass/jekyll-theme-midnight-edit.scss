@@ -73,6 +73,25 @@ strong {
 .post-content h6 a:not(:hover),
 {
     color: inherit;
+
+    code {
+        color: $code-color;
+    }
+}
+
+// okay this is just getting silly
+.post-content h1 a:hover,
+.post-content h2 a:hover,
+.post-content h3 a:hover,
+.post-content h4 a:hover,
+.post-content h5 a:hover,
+.post-content h6 a:hover,
+{
+    // uniformly highlight code with the rest of a section
+    // header link on hover
+    code {
+        color: inherit;
+    }
 }
 
 // don't color the blog title which links to the front page

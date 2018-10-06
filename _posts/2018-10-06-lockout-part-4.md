@@ -78,7 +78,7 @@ There may still be kinks to work out (and we may ultimately find that this strat
 
 ### Adjusting our constitution
 
-You should hopefully have noticed something very fishy about the rule we just added.  This new rule appears to assume that all lockables are capable of holding locks themselves...  But according to our constitution, locks are held by *values*---a concept completely orthogonal to lockables!
+You should hopefully have noticed something very fishy about the rule we just added.  This new rule appears to assume that all lockables are capable of holding locks themselves...  But according to [our constitution]({% post_url 2018-09-30-lockout-part-3 %}#our-constitution), locks are held by *values*---a concept completely orthogonal to lockables!
 
 Basically, as written, *our constitution forbids us from talking about the locks held by a lockable.*  We must amend it to make this discussion possible.
 
