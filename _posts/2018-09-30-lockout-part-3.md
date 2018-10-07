@@ -382,6 +382,8 @@ You might find that surprising.  I would too, if I haven't already been there!  
 
 In short: It *cannot* be fixed without amending our constitution.
 
+**Update:** [Part 4 is out!][Part 4]
+
 [^lcd]: I think LCD screens have some kind of ink in them, right?  I'm gonna say yes. Definitely yes. I've decided, and there's nothing you can do about it.
 
 
@@ -396,3 +398,5 @@ If you happen to be a visitor from the distant future who doesn't want to necro 
 ## Sbbgabgrf[^sbbgabgrf]
 
 [^sbbgabgrf]: Bzrqrgbh tbmnvznfh!... anuuuuu, nalobql pbhyq unir svtherq gung bhg. Lbh'er abg fcrpvny.
+
+[Part 4]: {% post_url 2018-10-06-lockout-part-4 %}
