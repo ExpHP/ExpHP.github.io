@@ -305,7 +305,7 @@ To rephrase, it seems that *all of the situations considered above can be accura
 
 [^box-new]: `Box::new` was magic and didn't count, okay?  We've been over this!
 
-**Update:** [Part 3 is out!]({% post_url 2018-09-30-lockout-part-3 %})
+**Update:** [Part 3 is out!][Part 3]
 
 ## Comments and corrections
 
@@ -314,3 +314,5 @@ Please keep 'em coming on [this URLO thread](https://users.rust-lang.org/t/blog-
 ---
 
 ## Notefoots
+
+{% include series/lockout-links.md %}

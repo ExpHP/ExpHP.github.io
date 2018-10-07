@@ -14,9 +14,7 @@ This is part of a blog series on working towards an intuitive mental model for l
 
 ---
 
-Part 2 introduced a simple borrow checker without lifetimes, and Part 3 brought to our attention two serious shortcomings.  We addressed one of them, but another still remains.
-
-This shall be the final post about borrow-checking without lifetimes.
+[Part 2](blah) introduced a simple borrow checker without lifetimes, and [Part 3][Part 3] brought to our attention two serious shortcomings.  We managed to fix one of them, but another still remains!
 
 ## Fixing the "invariance example"
 
@@ -378,3 +376,5 @@ You can keep 'em coming on [this URLO thread](https://users.rust-lang.org/t/blog
 ---
 
 ## The Foot Note
+
+{% include series/lockout-links.md %}

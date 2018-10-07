@@ -174,3 +174,29 @@ span.anchor {
     position: relative;
     top: 2px;
 }
+
+// Go for a layout that looks like
+//
+// // (flush against the margin, no bullets)
+// Introduction
+//    > Part 1 - blah
+//                          // <-- gap between sections
+// A borrow checker without lifetimes
+//    > Part 2 - blah
+//    > Part 3 - blah       // <-- no gap within a section
+//    > Part 4 - blah
+div.series-toc {
+    margin-bottom: 20px;
+
+    > ul {
+        padding-left: 0px;
+    }
+    > ul > li {
+        list-style-type: none;
+        list-style-image: none;
+    }
+
+    > ul > li + li {
+        margin-top: 20px;
+    }
+}

@@ -24,7 +24,7 @@ Well, yes... but I want to throw a new perspective on what we just did.  Trust m
 
 ### Two levels of rules
 
-Part 2 introduced a whole bunch of rules, but from now onwards I'd really like to differentiate them into two groups based on their level of impact: They are our **constitution,** and its **implementation.**
+[Part 2][Part 2] introduced a whole bunch of rules, but from now onwards I'd really like to differentiate them into two groups based on their level of impact: They are our **constitution,** and its **implementation.**
 
 ### Our constitution
 
@@ -399,4 +399,4 @@ If you happen to be a visitor from the distant future who doesn't want to necro 
 
 [^sbbgabgrf]: Bzrqrgbh tbmnvznfh!... anuuuuu, nalobql pbhyq unir svtherq gung bhg. Lbh'er abg fcrpvny.
 
-[Part 4]: {% post_url 2018-10-06-lockout-part-4 %}
+{% include series/lockout-links.md %}

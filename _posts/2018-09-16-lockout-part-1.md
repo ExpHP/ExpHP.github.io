@@ -3,6 +3,7 @@ layout: post
 title:  "Lockout, Part 1: Everything you know about lifetimes is wrong."
 date:   2018-09-16 12:00:00 -0500
 categories: rust series
+# used for ToC generation
 series: lockout
 series-part-id: 1
 ---
@@ -251,7 +252,7 @@ Stay tuned, because many questions remain, with exciting answers to be revealed:
 * **Why is the blog series called "Lockout?"**
 * **Who is writing these questions?!**
 
-**Update:** [Part 2 is out!]({% post_url 2018-09-18-lockout-part-2 %})
+**Update:** [Part 2 is out!][Part 2]
 
 ## Thoughts? Corrections?
 
@@ -261,3 +262,5 @@ I'm trying to get [staticman](https://staticman.net/) set up for comments, but i
 
 <!-- FIXME should instead do this by sticking something into the `footnotes` div directly, through... hell, I dunno. JS? CSS? -->
 ## Foodnotes
+
+{% include series/lockout-links.md %}
