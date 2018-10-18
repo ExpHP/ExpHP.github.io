@@ -65,12 +65,16 @@ strong {
 //
 // Limited to post-content because I want the links to posts on the front page
 // to be colored still.
-.post-content h1 a:not(:hover),
-.post-content h2 a:not(:hover),
-.post-content h3 a:not(:hover),
-.post-content h4 a:not(:hover),
-.post-content h5 a:not(:hover),
-.post-content h6 a:not(:hover),
+//
+// The "direct descendent" combinator '>' is used so that other links added to
+// a heading (e.g. a footnote, or a heading explicitly written to contain a
+// link to another page) are still colored.
+.post-content h1 > a:not(:hover),
+.post-content h2 > a:not(:hover),
+.post-content h3 > a:not(:hover),
+.post-content h4 > a:not(:hover),
+.post-content h5 > a:not(:hover),
+.post-content h6 > a:not(:hover),
 {
     color: inherit;
 
@@ -80,12 +84,12 @@ strong {
 }
 
 // okay this is just getting silly
-.post-content h1 a:hover,
-.post-content h2 a:hover,
-.post-content h3 a:hover,
-.post-content h4 a:hover,
-.post-content h5 a:hover,
-.post-content h6 a:hover,
+.post-content h1 > a:hover,
+.post-content h2 > a:hover,
+.post-content h3 > a:hover,
+.post-content h4 > a:hover,
+.post-content h5 > a:hover,
+.post-content h6 > a:hover,
 {
     // uniformly highlight code with the rest of a section
     // header link on hover
