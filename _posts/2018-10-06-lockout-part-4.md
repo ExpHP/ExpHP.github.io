@@ -366,6 +366,8 @@ Remember, the whole goal of writing a borrow checker without lifetimes was to pr
 
 ...till next time!
 
+**Update:** [Part 5][Part 5] is out! And it's a biggie!
+
 ## Comments and corrections
 
 You can keep 'em coming on [this URLO thread](https://users.rust-lang.org/t/blog-post-lockout-everything-you-know-about-lifetimes-is-wrong/20483)!

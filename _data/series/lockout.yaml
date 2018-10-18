@@ -17,8 +17,11 @@
     title: 'Invariance without variance'
     phrase: 'playing whac-a-mole'
 
-- heading: 'Introducing lifetimes'
+- heading: 'Lifetimes on values'
   items:
   - series-part-id: 5
-    title: TBA
+    title: 'Valuable lifetimes'
+    phrase: discovering Rust's missing syntax
 
+  - series-part-id: 6
+    title: TBA

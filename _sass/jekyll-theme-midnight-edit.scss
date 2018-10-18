@@ -200,3 +200,21 @@ div.series-toc {
         margin-top: 20px;
     }
 }
+
+// blockquote styling is nice for sidebars and other things
+// that aren't blockquotes, so I don't appreciate the auto-italics
+// in the theme.
+//
+// It'd be *really* nice if I could use custom div classes for this
+// to truly separate style from content; but you can't render markdown
+// in a div unless you do some liquid hack like
+//
+//     {% capture stuff %}
+//       markdown here
+//     {% endcapture %}
+//     <div class="lol>{{ stuff | markdownify }}</div>
+//
+// And even that can't be done if you want a footnote inside the block.
+blockquote {
+    font-style: inherit;
+}
