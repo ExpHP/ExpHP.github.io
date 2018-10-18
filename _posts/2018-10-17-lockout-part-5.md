@@ -513,15 +513,19 @@ This operator has not shown up anywhere yet in our value-centric design; for now
 
 `'static` is an "annihilating element" of this operation, satisfying `'static & 'a === 'a & 'static === 'static` for all `'a`.
 
-## To be continued
+## In conclusion
 
-What started out as a simple primer on notation ended up covering one of the most important things I wanted to get to in this series!  Thinking of lifetimes as sets of locks very quickly earns us a pair of useful and easily-understandable set operations, and long before we even know it we're already expressing concepts fundamental to borrow-checking that, stunningly, have *no corresponding syntax* in standard rust!
+Surprisingly, when we put lifetimes on values rather than types, we still end up with some notion of "lifetimes as types"---except that these types now form a completely separate type system!
+
+Thinking of lifetimes as sets of locks very quickly earns us a pair of useful and easily-understandable set operations, and long before we even know it we're already expressing concepts fundamental to borrow-checking that, stunningly, have *no corresponding syntax* in standard rust!
 
 How is this even possible, one might wonder?  My current feeling is that we likely don't *require* this syntax, because lifetime inference already takes care of every possible use case for it.  I may be putting this theory to the test in the next part.
 
 > **A parting word:**  Numerous times on [URLO](https://users.rust-lang.org), I and many others have stated that "values do not have lifetimes, only borrows do." But in our simpler formulation, a value of type `(&'a i32, &'b i32)` (in standard Rust) clearly *does* have a lifetime, which we may express as `'a | 'b`.
 >
 > Perhaps one could say that it has a lifetime in standard Rust as well... and that we're simply discouraged from talking about it due to our inability to express it!
+
+## To be continued
 
 Till next time, when we implement lifetime inference!
 
@@ -531,6 +535,8 @@ You can keep 'em coming on [this URLO thread](https://users.rust-lang.org/t/blog
 
 ---
 
-## Footballs
+## Fonóta[^translate]
 
 {% include series/lockout-links.md %}
+
+[^translate]: Isn't Google Translate grand?
