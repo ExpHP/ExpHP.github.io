@@ -91,23 +91,6 @@ macro_rules! lock {
 
 What you end up with is a notation that looks suitable for something very similar to our value-based borrow checker from parts 2-4, with only a small number of notable differences.  Let's talk a bit more about this notation before talking about how to implement a borrow checker that uses it.
 
-<!----
-@@@@@@@@@@@@@@ RM RM RM @@@@@@@@@@@@@@@@@@
-
-Our constitution now must describe two things:
-
-* The type system aspects
-    * Lifetimes and region variables: _where_ are locks encoded into the type system?
-    * Region constraints and subtyping
-* The borrow checker
-    * Locks, lockables, and all that jazz from before.
-    * How do we _use_ the region variables?
-
-In a sense, the type system aspects serve as a layer of abstraction that, if used effectively, can simplify many of the problems that were previously too difficult to solve.  Just like any other unsafe type-level abstraction, they encode a set of invariants which serve as a **sufficient condition for soundness** given the way that the borrow checker uses them.
-
-...in light of this, you can perhaps see why people like to think of lifetimes as, well, _lifetimes._  An invariant such as "this type is known to live at least as long as `'a`" sounds sensible; it is an inherent property of a value which can be validated by the borrow checker.  When you try to think of lifetimes as locks, what is the type invariant?  What does `T: 'a` mean?
---->
-
 ### Lifetimes as individual locks
 
 We will now religiously annotate locks held by values using the `Val!` macro.
