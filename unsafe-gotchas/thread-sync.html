@@ -1,0 +1,509 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Concerns for thread synchronization - Unsafe Gotchas</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <ol class="chapter"><li class="affix"><a href="intro.html">Introduction</a></li><li><a href="omnipresent.html"><strong aria-hidden="true">1.</strong> Omnipresent concerns</a></li><li><a href="ffi.html"><strong aria-hidden="true">2.</strong> Concerns for FFI</a></li><li><a href="thread-sync.html" class="active"><strong aria-hidden="true">3.</strong> Concerns for thread synchronization</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title">Unsafe Gotchas</h1> 
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <a class="header" href="#concerns-for-thread-synchronization" id="concerns-for-thread-synchronization"><h1>Concerns for thread synchronization</h1></a>
+<p><a id="shared-mut-wo-unsafecell"></a></p>
+<a class="header" href="#shared-mutability-without-unsafecell" id="shared-mutability-without-unsafecell"><h2>Shared mutability without <code>UnsafeCell</code></h2></a>
+<p><strong>What to look for:</strong> Mutable data that is shared by multiple threads, but isn't
+atomic or wrapped in an <code>UnsafeCell</code>. Casts from <code>*const _</code> to <code>*mut _</code>.</p>
+<p><strong>Summary:</strong> Threads usually exchange data by reading and writing to shared
+memory locations. But by default, Rust assumes that non-atomic data accessed via
+a shared <code>&amp;</code> reference cannot change. This assumption must be suppressed using
+an <code>UnsafeCell</code> in objects meant for thread synchronization.</p>
+<p><strong>Incorrect:</strong></p>
+<pre><pre class="playpen"><code class="language-rust"># fn main() {}
+use std::sync::atomic::{AtomicBool, Ordering};
+
+pub struct SpinLock&lt;T&gt; {
+    data: T,
+    locked: AtomicBool,
+}
+
+impl&lt;T&gt; SpinLock&lt;T&gt; {
+    pub fn new(data: T) -&gt; Self {
+        Self {
+            data,
+            locked: AtomicBool::new(false),
+        }
+    }
+
+    pub fn try_lock(&amp;self) -&gt; Option&lt;LockGuard&lt;T&gt;&gt; {
+        let was_locked = self.locked.swap(true, Ordering::Acquire);
+        if was_locked {
+            None
+        } else {
+            Some(LockGuard(&amp;self))
+        }
+    }
+}
+
+pub struct LockGuard&lt;'a, T&gt;(&amp;'a SpinLock&lt;T&gt;);
+
+impl&lt;'a, T&gt; LockGuard&lt;'a, T&gt; {
+    pub fn get_mut(&amp;mut self) -&gt; &amp;mut T {
+        let data_ptr = &amp;self.0.data as *const _ as *mut _;
+        unsafe { &amp;mut *data_ptr }
+    }
+}
+
+impl&lt;'a, T&gt; Drop for LockGuard&lt;'a, T&gt; {
+    fn drop(&amp;mut self) {
+        self.0.locked.store(false, Ordering::Release);
+    }
+}
+</code></pre></pre>
+<p><strong>Correct:</strong></p>
+<pre><pre class="playpen"><code class="language-rust"># fn main() {}
+use std::cell::UnsafeCell;
+use std::sync::atomic::{AtomicBool, Ordering};
+
+pub struct SpinLock&lt;T&gt; {
+    cell: UnsafeCell&lt;T&gt;,
+    locked: AtomicBool,
+}
+
+impl&lt;T&gt; SpinLock&lt;T&gt; {
+    pub fn new(data: T) -&gt; Self {
+        Self {
+            cell: UnsafeCell::new(data),
+            locked: AtomicBool::new(false),
+        }
+    }
+
+    pub fn try_lock(&amp;self) -&gt; Option&lt;LockGuard&lt;T&gt;&gt; {
+        let was_locked = self.locked.swap(true, Ordering::Acquire);
+        if was_locked {
+            None
+        } else {
+            Some(LockGuard(&amp;self))
+        }
+    }
+}
+
+pub struct LockGuard&lt;'a, T&gt;(&amp;'a SpinLock&lt;T&gt;);
+
+impl&lt;'a, T&gt; LockGuard&lt;'a, T&gt; {
+    pub fn get_mut(&amp;mut self) -&gt; &amp;mut T {
+        unsafe { &amp;mut *self.0.cell.get() }
+    }
+}
+
+impl&lt;'a, T&gt; Drop for LockGuard&lt;'a, T&gt; {
+    fn drop(&amp;mut self) {
+        self.0.locked.store(false, Ordering::Release);
+    }
+}
+</code></pre></pre>
+<p><a id="multiple-mut-ref"></a></p>
+<a class="header" href="#multiple-mut-to-the-same-data" id="multiple-mut-to-the-same-data"><h2>Multiple <code>&amp;mut</code> to the same data</h2></a>
+<p><strong>What to look for:</strong> Multiple <code>&amp;mut</code>s to a single piece of data, or APIs that
+allow creating them.</p>
+<p><strong>Summary:</strong> As seen above, to synchronize threads through shared memory, we
+need to cheat Rust's &quot;no shared mutability&quot; rule using <code>UnsafeCell</code>. This makes
+it easy to accidentally expose an API that allows creating multiple <code>&amp;mut</code>s to a
+single piece of data, which is Undefined Behavior.</p>
+<p><strong>Incorrect:</strong></p>
+<pre><pre class="playpen"><code class="language-rust"># fn main() {}
+use std::cell::UnsafeCell;
+use std::sync::atomic::{AtomicU32, Ordering};
+
+pub struct RecursiveSpinLock&lt;T&gt; {
+    cell: UnsafeCell&lt;T&gt;,
+    owner_id: AtomicU32,
+}
+
+const NO_THREAD_ID: u32 = 0;
+static THREAD_ID_CTR: AtomicU32 = AtomicU32::new(1);
+thread_local!(static THREAD_ID: u32 = THREAD_ID_CTR.fetch_add(1, Ordering::Relaxed));
+
+impl&lt;T&gt; RecursiveSpinLock&lt;T&gt; {
+    pub fn new(data: T) -&gt; Self {
+        Self {
+            cell: UnsafeCell::new(data),
+            owner_id: AtomicU32::new(NO_THREAD_ID),
+        }
+    }
+
+    pub fn try_lock(&amp;self) -&gt; Option&lt;&amp;mut T&gt; {
+        THREAD_ID.with(|&amp;my_id| {
+            let old_id = self.owner_id.compare_and_swap(NO_THREAD_ID, my_id, Ordering::Acquire);
+            if old_id == NO_THREAD_ID || old_id == my_id {
+                Some(unsafe { &amp;mut *self.cell.get() })
+            } else {
+                None
+            }
+        })
+    }
+
+    pub fn unlock(&amp;self) {
+        THREAD_ID.with(|&amp;my_id| {
+            let old_id = self.owner_id.compare_and_swap(my_id, NO_THREAD_ID, Ordering::Release);
+            assert_eq!(old_id, my_id, &quot;Incorrect lock usage detected!&quot;);
+        })
+    }
+}
+</code></pre></pre>
+<p>Here, a single thread calling <code>try_lock()</code> multiple times on a
+<code>RecursiveSpinLock</code> object (or, for that matter, slyly keeping the <code>&amp;mut T</code>
+around after calling <code>unlock()</code>) can get multiple mutable references to its
+inner data, which is illegal in Rust.</p>
+<p>If you really need a recursive lock, you will need to make its API return
+a shared <code>&amp;</code> reference, or to turn it into an unsafe API that returns a raw
+<code>*mut</code> pointer (possibly wrapped in <code>NonNull</code>).</p>
+<p><a id="data-races"></a></p>
+<a class="header" href="#data-races" id="data-races"><h2>Data races</h2></a>
+<p><strong>What to look for:</strong> One thread writing to a piece of data in a fashion that is
+observable by another thread writing to or reading from it.</p>
+<p><strong>Summary:</strong> Even in the presence of an <code>UnsafeCell</code>, data races are undefined
+behavior. Intuitions of memory accesses based on reading the code may not match
+the actual memory access patterns of optimized binaries running on modern
+out-of-order CPUs. Please ensure that other threads wait for writes to be
+finished before accessing the shared data.</p>
+<p><strong>Incorrect:</strong></p>
+<pre><pre class="playpen"><code class="language-rust"># fn main() {}
+use std::cell::UnsafeCell;
+use std::sync::atomic::{AtomicBool, Ordering};
+
+pub struct Racey&lt;T&gt; {
+    cell: UnsafeCell&lt;T&gt;,
+    writing: AtomicBool,
+}
+
+impl&lt;T&gt; Racey&lt;T&gt; {
+    pub fn new(data: T) -&gt; Self {
+        Self {
+            cell: UnsafeCell::new(data),
+            writing: AtomicBool::new(false),
+        }
+    }
+
+    pub fn read(&amp;self) -&gt; *const T {
+        self.cell.get()
+    }
+
+    pub fn try_write(&amp;self) -&gt; Option&lt;WriteGuard&lt;T&gt;&gt; {
+        let was_writing = self.writing.swap(true, Ordering::Acquire);
+        if was_writing {
+            None
+        } else {
+            Some(WriteGuard(&amp;self))
+        }
+    }
+}
+
+pub struct WriteGuard&lt;'a, T&gt;(&amp;'a Racey&lt;T&gt;);
+
+impl&lt;'a, T&gt; WriteGuard&lt;'a, T&gt; {
+    // Notice the use of &amp;mut self, which prevents multiple &amp;mut T to be created
+    pub fn get_mut(&amp;mut self) -&gt; &amp;mut T {
+        unsafe { &amp;mut *self.0.cell.get() }
+    }
+}
+
+impl&lt;'a, T&gt; Drop for WriteGuard&lt;'a, T&gt; {
+    fn drop(&amp;mut self) {
+        self.0.writing.store(false, Ordering::Release);
+    }
+}
+</code></pre></pre>
+<p>Although this design correctly prevents multiple writers from acquiring an
+<code>&amp;mut</code> to the data at the same time (which, as we've seen, is UB even if they
+don't use those references), it does not prevents readers from observing the
+writes of the writers.</p>
+<p>For that matter, simply modifying <code>read</code> to return a <code>&amp;T</code> instead of a
+<code>*const T</code> would be Undefined Behavior per se, because <code>&amp;mut</code> and <code>&amp;</code> references
+are not allowed to coexist.</p>
+<p><a id="insufficient-synchronization"></a></p>
+<a class="header" href="#insufficient-synchronization" id="insufficient-synchronization"><h2>Insufficient synchronization</h2></a>
+<p><strong>What to look for:</strong> Insufficient atomic memory orderings and unforeseen
+interleavings of thread operations on shared memory.</p>
+<p><strong>Summary:</strong> Modern optimizing compilers and CPUs will add, remove, and reorder
+memory accesses in a fashion that is observable by other threads. It is your
+responsability to tell the compiler which of these alterations should be
+prevented so that your code remains correct.</p>
+<p><strong>Incorrect:</strong></p>
+<pre><pre class="playpen"><code class="language-rust"># fn main() {}
+use std::cell::UnsafeCell;
+use std::sync::atomic::{AtomicBool, Ordering};
+
+pub struct SpinLock&lt;T&gt; {
+    cell: UnsafeCell&lt;T&gt;,
+    locked: AtomicBool,
+}
+
+impl&lt;T&gt; SpinLock&lt;T&gt; {
+    pub fn new(data: T) -&gt; Self {
+        Self {
+            cell: UnsafeCell::new(data),
+            locked: AtomicBool::new(false),
+        }
+    }
+
+    pub fn try_lock(&amp;self) -&gt; Option&lt;LockGuard&lt;T&gt;&gt; {
+        let was_locked = self.locked.swap(true, Ordering::Relaxed);
+        if was_locked {
+            None
+        } else {
+            Some(LockGuard(&amp;self))
+        }
+    }
+}
+
+pub struct LockGuard&lt;'a, T&gt;(&amp;'a SpinLock&lt;T&gt;);
+
+impl&lt;'a, T&gt; LockGuard&lt;'a, T&gt; {
+    pub fn get_mut(&amp;mut self) -&gt; &amp;mut T {
+        unsafe { &amp;mut *self.0.cell.get() }
+    }
+}
+
+impl&lt;'a, T&gt; Drop for LockGuard&lt;'a, T&gt; {
+    fn drop(&amp;mut self) {
+        self.0.locked.store(false, Ordering::Relaxed);
+    }
+}
+</code></pre></pre>
+<p>Use of <code>Relaxed</code> memory ordering means that the compiler and CPU are allowed to
+move reads and writes to the lock-protected data before the atomic swap that
+acquires the lock or after the atomic CAS that releases the lock. This may
+result in data races.</p>
+<p><strong>Correct:</strong></p>
+<pre><pre class="playpen"><code class="language-rust"># fn main() {}
+use std::cell::UnsafeCell;
+use std::sync::atomic::{AtomicBool, Ordering};
+
+pub struct SpinLock&lt;T&gt; {
+    cell: UnsafeCell&lt;T&gt;,
+    locked: AtomicBool,
+}
+
+impl&lt;T&gt; SpinLock&lt;T&gt; {
+    pub fn new(data: T) -&gt; Self {
+        Self {
+            cell: UnsafeCell::new(data),
+            locked: AtomicBool::new(false),
+        }
+    }
+
+    pub fn try_lock(&amp;self) -&gt; Option&lt;LockGuard&lt;T&gt;&gt; {
+        let was_locked = self.locked.swap(true, Ordering::Acquire);
+        if was_locked {
+            None
+        } else {
+            Some(LockGuard(&amp;self))
+        }
+    }
+}
+
+pub struct LockGuard&lt;'a, T&gt;(&amp;'a SpinLock&lt;T&gt;);
+
+impl&lt;'a, T&gt; LockGuard&lt;'a, T&gt; {
+    pub fn get_mut(&amp;mut self) -&gt; &amp;mut T {
+        unsafe { &amp;mut *self.0.cell.get() }
+    }
+}
+
+impl&lt;'a, T&gt; Drop for LockGuard&lt;'a, T&gt; {
+    fn drop(&amp;mut self) {
+        self.0.locked.store(false, Ordering::Release);
+    }
+}
+</code></pre></pre>
+<p><code>Acquire</code> ordering ensures that no reads and writes can be speculatively carried
+out on the locked data before the lock has been acquired. <code>Release</code> ordering
+ensures that all reads and writes to locked data have been flushed to shared
+memory before the lock is released.</p>
+<p>Together, these memory orderings guarantee that a thread acquiring the lock will
+see the inner data as the thread that previously released the lock saw it.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="ffi.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="ffi.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Concerns for FFI - Unsafe Gotchas</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <ol class="chapter"><li class="affix"><a href="intro.html">Introduction</a></li><li><a href="omnipresent.html"><strong aria-hidden="true">1.</strong> Omnipresent concerns</a></li><li><a href="ffi.html" class="active"><strong aria-hidden="true">2.</strong> Concerns for FFI</a></li><li><a href="thread-sync.html"><strong aria-hidden="true">3.</strong> Concerns for thread synchronization</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title">Unsafe Gotchas</h1> 
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <a class="header" href="#concerns-for-ffi" id="concerns-for-ffi"><h1>Concerns for FFI</h1></a>
+<p><a id="enums"></a></p>
+<a class="header" href="#enums-are-not-ffi-safe" id="enums-are-not-ffi-safe"><h2>enums are not FFI-safe</h2></a>
+<p><strong>What to look for:</strong> <code>enum</code>s appearing in signatures of <code>extern fn</code>s.</p>
+<p><strong>Summary:</strong> It is undefined behavior for an <code>enum</code> in rust to carry an invalid value.  Therefore, do not make it possible for C code to supply the value of an <code>enum</code> type.</p>
+<p><strong>Incorrect:</strong></p>
+<pre><pre class="playpen"><code class="language-rust"># fn main() {}
+#[repr(u16)]
+pub enum Mode {
+    Read = 0,
+    Write = 1,
+}
+
+#[allow(unused)]
+extern &quot;C&quot; fn rust_from_c(mode: Mode) {
+    // ...
+}
+</code></pre></pre>
+<p><strong>Also incorrect:</strong></p>
+<pre><pre class="playpen"><code class="language-rust no_run"># #[repr(u16)]
+# pub enum Mode {
+#     Read = 0,
+#     Write = 1,
+# }
+#
+extern &quot;C&quot; {
+    fn c_from_rust(mode: *mut Mode);
+}
+
+fn main() {
+    let mut mode = Mode::Read;
+    unsafe { c_from_rust(&amp;mut mode); }
+}
+</code></pre></pre>
+<p><a id="cstring"></a></p>
+<a class="header" href="#cstringfrom_raw" id="cstringfrom_raw"><h2><code>CString::from_raw</code></h2></a>
+<p><strong>Things to look for:</strong> Any usage of <code>CString::{into_raw, from_raw}</code>.</p>
+<p><strong>Summary:</strong> As documented, <code>CString::from_raw</code> recomputes the length by scanning for a null byte.  What it doesn't (currently) mention is that <strong>this length must match the original length.</strong></p>
+<p>I think you'll be hard pressed to find any C API function that mutates a <code>char *</code> without changing its length!</p>
+<p><strong>Incorrect</strong></p>
+<pre><pre class="playpen"><code class="language-rust no_run">extern crate libc;
+
+use std::ffi::{CString, CStr};
+
+fn main() {
+    let ptr = CString::new(&quot;Hello, world!&quot;).unwrap().into_raw();
+    let delim = CString::new(&quot; &quot;).unwrap();
+    
+    let first_word_ptr = unsafe { libc::strtok(ptr, delim.as_ptr()) };
+    
+    assert_eq!(
+        unsafe { CStr::from_ptr(first_word_ptr) },
+        &amp;CString::new(&quot;Hello,&quot;).unwrap()[..],
+    );
+    
+    drop(unsafe { CString::from_raw(ptr) });
+}
+</code></pre></pre>
+<p>This is incorrect because <code>strtok</code> inserts a NUL byte after the comma in <code>&quot;Hello, world!&quot;</code>, causing the <code>CString</code> to have a different length once it is reconstructed.  As a result, when the CString is freed, it will pass the wrong size to the allocator.</p>
+<p>The fix is to never use these methods.  If a C API needs to modify a string, use a <code>Vec&lt;u8&gt;</code> buffer instead.</p>
+<p><strong>Correct</strong></p>
+<pre><pre class="playpen"><code class="language-rust">extern crate libc;
+
+use std::ffi::{CString, CStr};
+use libc::c_char;
+
+fn main() {
+    let mut buf = CString::new(&quot;Hello, world!&quot;).unwrap().into_bytes_with_nul();
+    let delim = CString::new(&quot; &quot;).unwrap();
+
+    let first_word_ptr = unsafe {
+        libc::strtok(buf.as_mut_ptr() as *mut c_char, delim.as_ptr())
+    };
+
+    assert_eq!(
+        unsafe { CStr::from_ptr(first_word_ptr) },
+        &amp;CString::new(&quot;Hello,&quot;).unwrap()[..],
+    );
+}
+</code></pre></pre>
+<p><a id="cstring-as-ptr"></a></p>
+<a class="header" href="#also-store-a-cstring-to-a-local-before-calling-as_ptr" id="also-store-a-cstring-to-a-local-before-calling-as_ptr"><h3>Also: Store a <code>CString</code> to a local before calling <code>as_ptr()</code></h3></a>
+<p>Just as an aside, there's another footgun here.  If I had written:</p>
+<p><strong>Incorrect:</strong></p>
+<pre><pre class="playpen"><code class="language-rust no_run"># use std::ffi::CString;
+# fn main() {
+let delim = CString::new(&quot; &quot;).unwrap().as_ptr();
+# let _ = delim;
+# }
+</code></pre></pre>
+<p>the buffer would have been freed immediately.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="omnipresent.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="thread-sync.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="omnipresent.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="thread-sync.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
