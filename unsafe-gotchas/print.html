@@ -75,7 +75,7 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li class="affix"><a href="intro.html">Introduction</a></li><li><a href="omnipresent.html"><strong aria-hidden="true">1.</strong> Omnipresent concerns</a></li><li><a href="ffi.html"><strong aria-hidden="true">2.</strong> Concerns for FFI</a></li><li><a href="thread-sync.html"><strong aria-hidden="true">3.</strong> Concerns for thread synchronization</a></li></ol>
+            <ol class="chapter"><li class="affix"><a href="intro.html">Introduction</a></li><li><a href="omnipresent.html"><strong aria-hidden="true">1.</strong> Omnipresent concerns</a></li><li><a href="ffi.html"><strong aria-hidden="true">2.</strong> Concerns for FFI</a></li><li><a href="thread-sync.html"><strong aria-hidden="true">3.</strong> Concerns for thread synchronization</a></li><li class="affix"><a href="contribute.html">Contributing</a></li></ol>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -142,7 +142,9 @@
                     <main>
                         <a class="header" href="#introduction" id="introduction"><h1>Introduction</h1></a>
 <p>There's plenty of things that you're <em>obviously</em> supposed to worry about in <code>unsafe</code> code; such as making sure that you don't dereference pointers to invalid data, and that you don't use something after it is freed. But oftentimes there are problems that are not so obvious, and you might forget to think about them even if they are mentioned in the docs of an <code>unsafe fn</code>!</p>
-<p>This book is a collection of those unsafe &quot;gotchas.&quot;</p>
+<p>This book is a (modest) collection of those unsafe &quot;gotchas.&quot;</p>
+<a class="header" href="#about" id="about"><h2>About</h2></a>
+<p>The source for this book is <a href="https://github.com/exphp-share/unsafe-gotchas">hosted on GitHub</a>. If you'd like to contribute, just submit a PR!</p>
 <a class="header" href="#omnipresent-concerns" id="omnipresent-concerns"><h1>Omnipresent concerns</h1></a>
 <p>These concerns may come up regardless of what kind of <code>unsafe</code> code you're writing.</p>
 <p><a id="drop-safety"></a></p>
@@ -776,6 +778,9 @@ ensures that all reads and writes to locked data have been flushed to shared
 memory before the lock is released.</p>
 <p>Together, these memory orderings guarantee that a thread acquiring the lock will
 see the inner data as the thread that previously released the lock saw it.</p>
+<a class="header" href="#contributing" id="contributing"><h1>Contributing</h1></a>
+<p>The source for this book is <a href="https://github.com/exphp-share/unsafe-gotchas">hosted on github</a>.</p>
+<p>Please feel free to contribute your own gotchas!</p>
 
                     </main>
 
