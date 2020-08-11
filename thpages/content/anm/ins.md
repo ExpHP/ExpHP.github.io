@@ -76,6 +76,5 @@ onContentLoad(async function() {
         target.innerHTML = generateOpcodeTable(17);
         initTableNavigation();
 //    }
-
 });
 [/script]
