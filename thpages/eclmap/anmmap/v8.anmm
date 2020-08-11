@@ -1,0 +1,188 @@
+!anmmap
+!ins_names
+1 end
+3 stop
+5 case
+6 wait
+
+100 iset
+101 fset
+102 iadd
+103 fadd
+104 isub
+105 fsub
+106 imul
+107 fmul
+108 idiv
+109 fdiv
+110 imod
+111 fmod
+112 isetAdd
+113 fsetAdd
+114 isetSub
+115 fsetSub
+116 isetMul
+117 fsetMul
+118 isetDiv
+119 fsetDiv
+120 isetMod
+121 fsetMod
+122 isetRand
+123 fsetRand
+124 fsin
+125 fcos
+126 ftan
+127 facos
+128 fatan
+129 validRad
+130 circlePos   # ins_130(&x, &y, ang, dist) -> *x = cos(ang)*dist; *y = sin(ang*dist)
+131 circlePosRand
+# ins_131(float* x, float* y, float min, float max) {
+#     float r = randf() * (max - min) + min; // randf = (0.0f, 1.0f)
+#     float ang = randrad();  // randrad = (-pi, pi)
+#     *x = cos(ang) * r;
+#     *y = sin(ang) * r;
+# }
+
+200 jmp
+201 jmpDec
+# based on x86 asm conditional jmp names except there's a type prefix i(nt) or f(loat)
+202 ije
+203 fje
+204 ijne
+205 fjne
+206 ijl
+207 fjl
+208 ijle
+209 fjle
+210 ijg
+211 fjg
+212 ijge
+213 fjge
+
+300 sprite
+301 spriteRand
+302 type
+303 blendMode
+304 layer
+308 flipX
+309 flipY
+311 resampleMode  # when scaling, 0=linear (blurry), 1=nearest (pixely)
+312 scrollMode  # 0=repeat 1=clamp 2=mirror
+# 313 controls how window resolution affects scaling of position and size
+# 314 has an effect when the parent rotates. (may also have other effects)
+
+400 pos
+401 rotate
+402 scale
+403 alpha
+404 color
+405 alpha2
+406 color2
+407 posTime
+408 colorTime
+409 alphaTime
+410 rotateTimeEx
+411 rotateTime
+412 scaleTime
+413 color2Time
+414 alpha2Time
+415 angleVel
+416 scaleGrowth  # adds to scale every frame
+417 alphaTime2  # not to be confused with 414...
+
+# unknown
+420 moveBezier
+421 anchor
+# unknown
+424 rotateAuto
+425 scrollX
+426 scrollY
+# 427-428 look like scrollXTime and scrollYTime but didn't work when tested
+# 434 is somehow scale-related
+# 435 is Time version of 434?
+436 anchorOffset
+# 438 controls origin of a root VM - 1 is for upscaled (pixely) stuff and 2 is for full-res stuff
+# further instructions are either unknown, or google translate makes no sense (TODO: check them)
+
+# Refer to https://gist.github.com/ExpHP/88bdef8f28f46fe4af6ab2e013b75896#creating-children
+500 scriptNew
+501 scriptNewFront
+502 scriptNewUI
+503 scriptNewUIFront
+504 scriptNew2         # TODO: how to name this???
+505 scriptNewPos
+506 scriptNew2Pos      # this one too...
+# 507(1) appears make an anm behave as if it has no parent.  No game really uses it...
+
+600 texCircle
+601 texArcEven
+602 texArc
+603 drawRect
+604 drawPoly
+605 drawPolyBorder
+606 drawRectGrad
+607 drawRectShadow
+608 drawRectShadowGrad
+609 texCylinder3D
+610 texRing3D
+611 drawRing  # TH15+
+612 drawRectBorder  # TH16+
+613 drawLine
+
+!gvar_names
+10000 I0
+10001 I1
+10002 I2
+10003 I3
+
+10004 F0
+10005 F1
+10006 F2
+10007 F3
+
+10008 I4
+10009 I5
+
+10010 RANDRAD
+10011 RANDF
+10012 RANDF2
+
+# 10013-10015 are one of the position-related vectors
+# 10016-10018 is related to background camera position but still a mystery
+# 10019-10021 may be normalized direction that the background camera is facing?
+# 10023-10025 are one of the rotation-related vectors
+
+10022 RAND
+
+# 10027 seems to be a scale factor for RANDF and RANDF2? (default 1)
+# 10028 seems to be a scale factor for RANDRAD (default pi)
+
+10030 RANDRADREP  # using the ECL RNG seed; as such, will be saved in replays
+10031 RANDFREP
+10032 RANDF2REP
+
+
+!gvar_types
+10000 $
+10001 $
+10002 $
+10003 $
+
+10004 %
+10005 %
+10006 %
+10007 %
+
+10008 $
+10009 $
+
+10010 %
+10011 %
+10012 %
+
+10022 $
+
+10030 %
+10031 %
+10032 %
