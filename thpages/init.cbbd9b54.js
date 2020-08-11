@@ -33,4 +33,4 @@ function e(e){var a=e.getLanguage("c-like").rawDefinition();return a.disableAuto
 },{"showdown":"dCXG","./showdown-ext.js":"kG6a","./index.js":"QvaY","./ecl/main.js":"eG3j","./tips.js":"yNAQ","highlight.js/lib/core":"afUf","highlight.js/lib/languages/c-like":"Fmgk","highlight.js/lib/languages/cpp":"a68X"}],"Tvvp":[function(require,module,exports) {
 "use strict";var i=require("./main.js");(0,i.init)();
 },{"./main.js":"d6sW"}]},{},["Tvvp"], null)
-//# sourceMappingURL=init.cbbd9b54.js.map
+//# sourceMappingURL=thpages/init.cbbd9b54.js.map
