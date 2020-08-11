@@ -159,7 +159,7 @@
 511 lifeSet
 512 setBoss
 513 timerReset
-514 setNext
+514 setInterrupt
 515 setInvuln
 516 playSound
 517 setScreenShake
@@ -190,7 +190,7 @@
 542 spellTimeout
 543 unknown543
 544 unknown544
-545 reset
+545 laserCancel
 546 bombShield
 547 gameSpeed
 548 diffWait
@@ -243,7 +243,7 @@
 631 lifeHide
 632 funcSet
 633 flagExtDmg
-634 unknown634
+634 setHitboxFunc
 635 etCancel2
 636 etClear2
 637 funcCall
@@ -269,7 +269,7 @@
 
 800 enmCall
 801 enmPos
-802 unknown802
+802 broadcastInterrupt
 
 900 debug900
 

@@ -143,7 +143,7 @@
 411 lifeSet
 412 setBoss
 413 timerReset
-414 setNext
+414 setInterrupt
 415 setInvuln
 416 playSound
 417 setScreenShake
@@ -174,7 +174,7 @@
 442 spellTimeout
 443 unknown443
 444 unknown444
-445 reset
+445 laserCancel
 446 bombShield
 447 gameSpeed
 448 diffWait
