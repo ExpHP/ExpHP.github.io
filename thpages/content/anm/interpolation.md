@@ -1,5 +1,5 @@
 [title=Interpolation modes in Touhou]
-[requireEclmap=17]
+[require-anmmap=v8]
 
 # Interpolation modes
 
@@ -90,7 +90,7 @@ ZUN chose to constrain the extremal time (i.e. what fraction of the total time i
 
 ## The **true** mode 8
 
-Before we go any further, let's talk a bit about what this interpolator struct actually looks like.  It basically looks like this: (at least in [game=14]DDC[/game]&ndash;[game=17]WBaWC[/game])
+Before we go any further, let's talk a bit about what this interpolator struct actually looks like.  It basically looks like this: (at least in [game=13]&ndash;[game=17])
 [code]
 template <typename T>
 struct Interp {
@@ -220,4 +220,5 @@ easeOutBackE = addMode(flip(easeInBackE));
 // or you can call them by name
 [/code]
 
-[/requireEclmap]
+[/require-anmmap]
+

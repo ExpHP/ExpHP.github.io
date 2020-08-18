@@ -1,5 +1,5 @@
 [title=Concepts in ANM]
-[requireEclmap=17]
+[require-anmmap=v8]
 
 <h1 id="why-anm">What is ANM used for?</h1>
 
@@ -28,6 +28,18 @@ On this site you'll see lots of words used that sound like they have similar mea
 - **virtual machine (VM)** &mdash; a VM is a specific instance of a script running in the game.  It contains all of the data necessary to describe the current state of the animation, as well as the current state of the script (including an instruction pointer, time value, and values of all registers).
 - **animation** &mdash; I use this to refer to *the output* of a VM (i.e. the graphical content it draws).  Or I try, at least. Out of habit I tend to use the terms "animation" and "VM" interchangeably.
 - **surface** &mdash; Much like how a texture is a thing you draw *from,* a surface is a thing you draw *to.* TH14-17 have three different surfaces, as will be explained in [stages of rendering](#anm/stages-of-rendering).  The destination surface of an animation is determined by its layer (the [ref=anm:layer] instruction).
+
+<h1 id="time-labels">Time labels</h1>
+
+COMING SOON (TM)
+
+<h1 id="position">Position vectors</h1>
+
+The position of a graphic is ironically one of the least understood aspects of how ANM works.
+
+Each VM has an **origin.**  For child scripts, the origin is the location of the parent, so that they move with the parent.  For scripts with no parent, the origin is determined by [ref=anm:originMode], which should be chosen appropriately for its [stage of rendering](#anm/stages-of-rendering).  *That's the easy part.*
+
+So how about the position relative to that origin?  Well, as you might imagine, each VM holds a position vector which can be modified using [ref=anm:pos]... but there are also two other vectors!!  The true position of the graphic relative to its origin *is the sum of all three of these vectors.*  These other two vectors are used in all sorts of different, weird places for weird things, and nobody has been able to make any real sense of them yet, so for now I'll just call them `pos_2` and `pos_3` until their purpose is better understood.
 
 <h1 id="rng">RNGs</h1>
 
@@ -114,4 +126,4 @@ Observe how, at the left end of the image, it *wraps back* to the F.  This is be
 
 Notice how I said "default behavior."  Using [ref=anm:scrollMode], you can configure this.  In particular, you can choose to have every other periodic copy be mirrored.
 
-[/requireEclmap]
+[/require-anmmap]
