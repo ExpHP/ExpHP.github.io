@@ -28,6 +28,19 @@ On this site you'll see lots of words used that sound like they have similar mea
 - **graphic** &mdash; I use this to refer to *the output* of a single VM (i.e. the graphical content it draws).  Or I try, at least. Out of habit I tend to use the terms "graphic" and "VM" interchangeably.
 - **surface** &mdash; Much like how a texture is a thing you draw *from,* a surface is a thing you draw *to.* TH14-17 have three different surfaces, as will be explained in [stages of rendering](#anm/stages-of-rendering).  The destination surface of a graphic is determined by its layer (the [ref=anm:layer] instruction).
 
+<h1 id="versions">Versions</h1>
+
+Anm files include version numbers that indicate when breaking changes are made to the format or instruction set.  For the most part `thanm` takes care of this, but you need to be aware of it when using anmmaps.
+
+| Version | Used by | Other notes |
+| :---: | ---     | --- |
+| v0 | [game=06] | |
+| v2 | [game=07] | |
+| v3 | [game=08], [game=09] | anmmap-compatible with v2 (only signatures changed) |
+| v4 | [game=095], [game=10] | |
+| v7 | [game=11], [game=12], [game=125], [game=128] | anmmap-compatible with v4 (only container format changed) |
+| v8 | [game=13] onwards | |
+
 <h1 id="time">Time labels</h1>
 
 COMING SOON (TM)
@@ -42,12 +55,22 @@ So how about the position relative to that origin?  Well, as you might imagine, 
 
 <h1 id="rng">RNGs</h1>
 
-There are two random number generators available to ANM scripts.  The terms I will use for these are:
+In modern Touhou games there are two random number generators available to ANM scripts.  The terms I will use for these are:
 
-* The **animation RNG**, which most scripts use.
+* The **animation RNG**, which is only used by ANM.
 * The **replay RNG**, which gets saved to replays.
 
-In modern games the replay RNG is accessed via a separate, dedicated set of variables (e.g. you can use [ref=anmvar:randf-01-replay] instead of [ref=anmvar:randf-01]).  In earlier games, there is instead a bitflag you can toggle using [ref=anm:v7-randMode] that decides which RNG is used.  This bitflag and instruction still exist in modern games, but they appear to no longer have any legitimate effect...
+Different ANM versions access these RNGs in different ways:
+
+* **[game-th=09] and earlier:** Everything uses the replay RNG. (animation RNG doesn't exist)
+* **[game-th=095]&ndash;[game-th=128]:**
+    - [wip]Not sure, but the general design seems to be: Root VMs for game entities use the replay RNG, children use the animation RNG.[/wip]
+    - A VM can change its current RNG using [ref=anm:v4-randMode].
+    - [ref=anm:spriteRand] always uses the replay RNG.
+* **[game-th=13] and later:**
+    - Almost everything uses the animation RNG. (incl. [ref=anm:rand] and [ref=anm:spriteRand])
+    - There are dedicated vars for the replay RNG. (e.g. [ref=anmvar:randf-01-replay])
+    - [ref=anm:v8-randMode] still exists but has no effect.
 
 <h1 id="children">Parent-child relationships</h1>
 
