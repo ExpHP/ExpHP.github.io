@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Saccade visualizer &mdash; alternating random noise</title>
+  <meta id="viewport" name="viewport">
+  <meta charset="UTF-8">
+  <style>
+    html, body {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    #canvas {
+      position:fixed;
+      left:0;
+      top:0;
+      width:100%;
+      height:100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></div>
+  <script type='text/javascript'>
+
+    function makeSomeNoise({width, height}) {
+      const arr = new window.Uint8ClampedArray(4 * width * height);
+      for (let i = 0; i < arr.length; i += 4) {
+        const state = Math.random() < 0.5;
+        arr[i + 0] = 255 * state;
+        arr[i + 1] = 255 * state;
+        arr[i + 2] = 255 * state;
+        arr[i + 3] = 255;
+      }
+      return new window.ImageData(arr, width);
+    }
+
+    function flipIt(img) {
+      const out = new window.Uint8ClampedArray(4 * img.width * img.height);
+      for (let i = 0; i < img.data.length; i += 4) {
+        out[i + 0] = 255 - img.data[i + 0];
+        out[i + 1] = 255 - img.data[i + 1];
+        out[i + 2] = 255 - img.data[i + 2];
+        out[i + 3] = img.data[i + 3];
+      }
+      return new window.ImageData(out, img.width);
+    }
+
+    window.addEventListener('load', function() {
+      const canvas = document.querySelector('#canvas');
+      const cx = canvas.getContext("2d");
+
+      let pendingRequest = null;
+      function resize() {
+        canvas.width = document.documentElement.clientWidth;
+        canvas.height = document.documentElement.clientHeight;
+        if (canvas.width === 0 || canvas.height === 0) return;
+
+        const img1 = makeSomeNoise({width: canvas.width, height: canvas.height});
+        const img2 = flipIt(img1);
+
+        let flag = false;
+        function getFrame() {
+          cx.putImageData(flag ? img1 : img2, 0, 0);
+          flag = !flag;
+          pendingRequest = window.requestAnimationFrame(getFrame);
+        }
+
+        if (pendingRequest != null) window.cancelAnimationFrame(pendingRequest);
+        pendingRequest = window.requestAnimationFrame(getFrame);
+      }
+
+      new window.ResizeObserver(resize).observe(document.body);
+    });
+
+  </script>
+</body>
+</html>
