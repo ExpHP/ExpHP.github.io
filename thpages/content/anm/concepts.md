@@ -42,9 +42,57 @@ Anm files include version numbers that indicate when breaking changes are made t
 
 # <span id="time">Time labels</span>
 
-COMING SOON (TM)
+Much like ECL and STD, every instruction in an ANM script is labeled with a `time` integer indicating the frame number at which it should run.  As a VM runs, it keeps track of both its current instruction in the script and an internal time counter which increments on each frame.  Every frame when the VM is [ticked](#/anm/ontick-ondraw), it compares the time label of the current instruction to its internal time, and will execute instructions until it encounters one whose time label is too large.
+
+Most of the time, large swathes of code in an ANM script will have equal time labels, so `thtk` doesn't label every line.  It labels the lines where the time changes; and it does so by writing an integer followed by a colon (like code labels, but integers instead of identifiers):
+
+[code]
+script script1 {
+    foo(0);   // has time label 0
+    bar(4);   // has time label 0
+30:
+    baz(3, 50f);   // has time label 30
+50:
+    quux(3, 50f);   // has time label 50
+}
+[/code]
+
+It also supports relative time labels, which begin with `+`, indicating that the label increases by this amount.
+
+[code]
+script script1 {
+    foo(0);   // has time label 0
+    bar(4);   // has time label 0
++30:
+    baz(3, 50f);   // has time label 30
++20:
+    quux(3, 50f);   // has time label 50
+10:
+    fazbear(20);  // has time label 10
+}
+[/code]
+
+Notice with the last label that time labels are also allowed to decrease.  When this happens it must be written as an absolute label, not as `-40:`, which would instead be interpreted as an absolute time label for the time `-40`.  *Speaking of negative time labels...*
+
+## The "minus 1st" frame
+
+Beginning in [game=13], whenever it loads an ANM file, for every script, it will create a VM and run that VM once with time set to `-1`.  Then it saves the resulting VM as a *template* for that script, and copies it each time an instance of that script is created. Basically what this means is that scripts can now have a "minus 1st" frame that only runs once when the file is loaded:
+
+[code]
+script script1 {
+-1:
+    [ref=anm:isetRand]([ref=anmvar:i0], 0, 5);
+0:
+    [ref=anm:isetRand]([ref=anmvar:i1], 0, 5);
+    ...
+}
+[/code]
+
+In the above example, every script created using `script1` will have the same value for [ref=anmvar:i0], but different values for [ref=anmvar:i1].  This is of course a contrived example to help exaggerate the effect; typically this initial frame is used to set the script's layer and a few other important properties.
 
 # <span id="position">Position vectors</span>
+
+<!-- Moved to [its own page](#/anm/position) -->
 
 The position of a graphic is ironically one of the least understood aspects of how ANM works.
 
