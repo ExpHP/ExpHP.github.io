@@ -2,7 +2,7 @@
 
 # The stages of rendering
 
-The following describes the rendering stages as they exist in [game=14]. Future games (at least up to [game=17]) have the same set of surfaces and rendering stages, though **[wip]layer and script numbers may differ!![/wip]**
+The following describes the rendering stages as they exist in [game=14]. Future games (at least up to [game=17]) have the same set of surfaces and rendering stages, though **[wip]layer and script numbers may differ!![/wip]**  (For now, no complete reference on layer number assignments exists; however, if you need help matching layers between games, you can try the [layer viewer](#anm/layers))
 
 ## tl;dr
 
@@ -245,4 +245,4 @@ A notable difference in the scripts between TH11 and TH14 is that, in TH11, some
 
 ## How'd you make those images, anyway?
 
-For the curious (and also because I kept screwing it up and had to redo it), I recorded the steps to obtain the relevant screenshots from DDC <a href="./content/anm/img/pipeline-raw-images.zip" download>here (ZIP archive)</a> (also includes the raw, unedited images).
+For the curious (and also because I kept screwing it up and had to redo it), I recorded the steps to obtain the relevant screenshots from DDC [dl=here (ZIP archive)](content/anm/img/pipeline-raw-images.zip) (also includes the raw, unedited images).
