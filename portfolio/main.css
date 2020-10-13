@@ -646,7 +646,8 @@ section #title h1 {
     font-weight: normal;
     font-size: 60px;
     text-align: center;
-    line-height: 36px
+    line-height: 36px;
+    margin-bottom: 20px;
 }
 
 section #title p {
