@@ -48,13 +48,13 @@ layout: default
   function tryRedirect() {
     var path = window.location.pathname;
     var initial_parts = path.split('/', 2)
-  
+
     // example of an old blog url:
     //     https://exphp.github.io/2018/10/06/lockout-part-4.html
     var looks_like_old_blog_url = false;
     for (const blog_subdir of ["2018", "2019"]) {
       for (const part of initial_parts) {
-        if (part == blog_subdir) {
+        if (part === blog_subdir) {
           looks_like_old_blog_url = true;
         }
       }
@@ -63,6 +63,11 @@ layout: default
     if (looks_like_old_blog_url) {
       // redirect!
       window.location.pathname = "/blog" + window.location.pathname;
+      return;
+    }
+
+    if (path === "/portfolio" || path === "/portfolio/" || path === "/portfolio/index.html") {
+      window.location.pathname = "";
     }
   }
 
