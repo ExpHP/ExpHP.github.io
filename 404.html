@@ -1,25 +1,75 @@
 ---
 layout: default
 ---
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ExpHP — Page not found</title>
+  <link rel="stylesheet" href="main.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="theme-color" content="#101813">
+  <link rel="stylesheet" href="/thpages/main.78b59d85.css">
+  <link rel="stylesheet" href="/thpages/syntax.517f4b5a.css">
+  <link rel="stylesheet" href="/thpages/navbar.484aede7.css">
+  <link rel="stylesheet" href="/thpages/game-colors.2d17fb56.css">
+  <link rel="stylesheet" href="/thpages/settings.0b67e249.css">
+  <link rel="stylesheet" href="/thpages/stats-table.995a387b.css">
+</head>
 
-<style type="text/css" media="screen">
-  .container {
-    margin: 10px auto;
-    max-width: 600px;
-    text-align: center;
+<body>
+  <style type="text/css" media="screen">
+    .container {
+      margin: 10px auto;
+      max-width: 600px;
+      text-align: center;
+    }
+    h1 {
+      margin: 30px 0;
+      font-size: 4em;
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+  </style>
+  <div class="container">
+    <h1>404</h1>
+  
+    <p><strong>Page not found :(</strong></p>
+    <p>The requested page could not be found.</p>
+    <p>Tragic, I know.</p>
+    <a href="/">Return to the front page.</a>
+  </div>
+</body>
+
+<script>
+  // The jekyll blog used to be at https://exphp.github.io, but is now at https://exphp.github.io/blog.
+  //
+  // Automatically redirect old blog urls to keep them working.
+  function tryRedirect() {
+    var path = window.location.pathname;
+    var initial_parts = path.split('/', 2)
+  
+    // example of an old blog url:
+    //     https://exphp.github.io/2018/10/06/lockout-part-4.html
+    var looks_like_old_blog_url = false;
+    for (const blog_subdir of ["2018", "2019"]) {
+      for (const part of initial_parts) {
+        if (part == blog_subdir) {
+          looks_like_old_blog_url = true;
+        }
+      }
+    }
+
+    if (looks_like_old_blog_url) {
+      // redirect!
+      window.location.pathname = "/blog" + window.location.pathname;
+    }
   }
-  h1 {
-    margin: 30px 0;
-    font-size: 4em;
-    line-height: 1;
-    letter-spacing: -1px;
-  }
-</style>
 
-<div class="container">
-  <h1>404</h1>
+  tryRedirect();
+</script>
+</html>
 
-  <p><strong>Page not found :(</strong></p>
-  <p>The requested page could not be found.</p>
-  <p>Tragic, I know.</p>
-</div>
+
+
+
