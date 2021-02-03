@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Michael Lamparski &mdash; Resume</title>
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  <meta charset="UTF-8">
+</head>
+
+<!--
+  Hmmm?  You're the kind of person who looks at the source of a page like this?
+  This file is handwritten, but based off of the one-page HTML resume posted by Chris Coyier here
+        
+            https://css-tricks.com/one-page-resume-site/
+
+  with a couple of tweaks to give it my own personal flare.
+-->
+
+<body>
+  <style>
+
+    /*
+      HACK to show background images in print media. I'll probably need to move them into the
+      foreground at some point.
+    */
+    * {
+        -webkit-print-color-adjust: exact !important;   /* Chrome, Safari */
+        color-adjust: exact !important;                 /*Firefox*/
+    }
+
+    .contact {
+      float: right;
+      width: 24em;
+      /* font-size: 0.9em; */
+      display: grid;
+      grid-template-areas:
+        "location  email"
+        "phone    github";
+      justify-items: left;
+    }
+
+    .contact .location { grid-area: location; }
+    .contact .github { grid-area: github; }
+    .contact .email { grid-area: email; }
+    .contact .phone { grid-area: phone; }
+
+    .contact >*::before {
+      content: "\0000a0";
+      height: 1em;
+      width: 1em;
+      display: inline-block;
+      position: relative;
+    
+      background-repeat: no-repeat;
+      background-size: contain;
+      transform: translate(-0.2em, +0.2em);
+    }
+
+    .contact .location::before {
+      background-image: url("data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9JzMwMHB4JyB3aWR0aD0nMzAwcHgnICBmaWxsPSIjMDAwMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMTAwIDEwMCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggZD0iTTUwLDBDMzEuMjk0LDAsMTYuMTI5LDE1LjE2NSwxNi4xMjksMzMuODdjMCwwLjQwMSwwLjAxMiwwLjgwOSwwLjAzLDEuMjIxYzAuMTI3LDMuNTU4LDAuNzk4LDYuOTc1LDEuOTM5LDEwLjE3MiAgQzI1LjMyNCw2OS4wMTUsNTAsMTAwLDUwLDEwMHMyNC42NzMtMzAuOTgyLDMxLjktNTQuNzM0YzEuMTQzLTMuMTk3LDEuODEzLTYuNjE3LDEuOTM5LTEwLjE3NWMwLjAyLTAuNDEyLDAuMDMxLTAuODE5LDAuMDMxLTEuMjIxICBDODMuODcxLDE1LjE2NSw2OC43MDYsMCw1MCwweiBNNTAsNTAuNDU5Yy05LjE2MSwwLTE2LjU4OS03LjQyOC0xNi41ODktMTYuNTg5YzAtOS4xNiw3LjQyOC0xNi41ODgsMTYuNTg5LTE2LjU4OCAgYzkuMTYyLDAsMTYuNTg5LDcuNDI4LDE2LjU4OSwxNi41ODhDNjYuNTg5LDQzLjAzMSw1OS4xNjIsNTAuNDU5LDUwLDUwLjQ1OXoiPjwvcGF0aD48L3N2Zz4=");
+    }
+
+    .contact .github::before {
+      background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE2LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgd2lkdGg9IjQzOC41NDlweCIgaGVpZ2h0PSI0MzguNTQ5cHgiIHZpZXdCb3g9IjAgMCA0MzguNTQ5IDQzOC41NDkiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQzOC41NDkgNDM4LjU0OTsiDQoJIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPHBhdGggZD0iTTQwOS4xMzIsMTE0LjU3M2MtMTkuNjA4LTMzLjU5Ni00Ni4yMDUtNjAuMTk0LTc5Ljc5OC03OS44QzI5NS43MzYsMTUuMTY2LDI1OS4wNTcsNS4zNjUsMjE5LjI3MSw1LjM2NQ0KCQljLTM5Ljc4MSwwLTc2LjQ3Miw5LjgwNC0xMTAuMDYzLDI5LjQwOGMtMzMuNTk2LDE5LjYwNS02MC4xOTIsNDYuMjA0LTc5LjgsNzkuOEM5LjgwMywxNDguMTY4LDAsMTg0Ljg1NCwwLDIyNC42Mw0KCQljMCw0Ny43OCwxMy45NCw5MC43NDUsNDEuODI3LDEyOC45MDZjMjcuODg0LDM4LjE2NCw2My45MDYsNjQuNTcyLDEwOC4wNjMsNzkuMjI3YzUuMTQsMC45NTQsOC45NDUsMC4yODMsMTEuNDE5LTEuOTk2DQoJCWMyLjQ3NS0yLjI4MiwzLjcxMS01LjE0LDMuNzExLTguNTYyYzAtMC41NzEtMC4wNDktNS43MDgtMC4xNDQtMTUuNDE3Yy0wLjA5OC05LjcwOS0wLjE0NC0xOC4xNzktMC4xNDQtMjUuNDA2bC02LjU2NywxLjEzNg0KCQljLTQuMTg3LDAuNzY3LTkuNDY5LDEuMDkyLTE1Ljg0NiwxYy02LjM3NC0wLjA4OS0xMi45OTEtMC43NTctMTkuODQyLTEuOTk5Yy02Ljg1NC0xLjIzMS0xMy4yMjktNC4wODYtMTkuMTMtOC41NTkNCgkJYy01Ljg5OC00LjQ3My0xMC4wODUtMTAuMzI4LTEyLjU2LTE3LjU1NmwtMi44NTUtNi41N2MtMS45MDMtNC4zNzQtNC44OTktOS4yMzMtOC45OTItMTQuNTU5DQoJCWMtNC4wOTMtNS4zMzEtOC4yMzItOC45NDUtMTIuNDE5LTEwLjg0OGwtMS45OTktMS40MzFjLTEuMzMyLTAuOTUxLTIuNTY4LTIuMDk4LTMuNzExLTMuNDI5Yy0xLjE0Mi0xLjMzMS0xLjk5Ny0yLjY2My0yLjU2OC0zLjk5Nw0KCQljLTAuNTcyLTEuMzM1LTAuMDk4LTIuNDMsMS40MjctMy4yODljMS41MjUtMC44NTksNC4yODEtMS4yNzYsOC4yOC0xLjI3Nmw1LjcwOCwwLjg1M2MzLjgwNywwLjc2Myw4LjUxNiwzLjA0MiwxNC4xMzMsNi44NTENCgkJYzUuNjE0LDMuODA2LDEwLjIyOSw4Ljc1NCwxMy44NDYsMTQuODQyYzQuMzgsNy44MDYsOS42NTcsMTMuNzU0LDE1Ljg0NiwxNy44NDdjNi4xODQsNC4wOTMsMTIuNDE5LDYuMTM2LDE4LjY5OSw2LjEzNg0KCQljNi4yOCwwLDExLjcwNC0wLjQ3NiwxNi4yNzQtMS40MjNjNC41NjUtMC45NTIsOC44NDgtMi4zODMsMTIuODQ3LTQuMjg1YzEuNzEzLTEyLjc1OCw2LjM3Ny0yMi41NTksMTMuOTg4LTI5LjQxDQoJCWMtMTAuODQ4LTEuMTQtMjAuNjAxLTIuODU3LTI5LjI2NC01LjE0Yy04LjY1OC0yLjI4Ni0xNy42MDUtNS45OTYtMjYuODM1LTExLjE0Yy05LjIzNS01LjEzNy0xNi44OTYtMTEuNTE2LTIyLjk4NS0xOS4xMjYNCgkJYy02LjA5LTcuNjE0LTExLjA4OC0xNy42MS0xNC45ODctMjkuOTc5Yy0zLjkwMS0xMi4zNzQtNS44NTItMjYuNjQ4LTUuODUyLTQyLjgyNmMwLTIzLjAzNSw3LjUyLTQyLjYzNywyMi41NTctNTguODE3DQoJCWMtNy4wNDQtMTcuMzE4LTYuMzc5LTM2LjczMiwxLjk5Ny01OC4yNGM1LjUyLTEuNzE1LDEzLjcwNi0wLjQyOCwyNC41NTQsMy44NTNjMTAuODUsNC4yODMsMTguNzk0LDcuOTUyLDIzLjg0LDEwLjk5NA0KCQljNS4wNDYsMy4wNDEsOS4wODksNS42MTgsMTIuMTM1LDcuNzA4YzE3LjcwNS00Ljk0NywzNS45NzYtNy40MjEsNTQuODE4LTcuNDIxczM3LjExNywyLjQ3NCw1NC44MjMsNy40MjFsMTAuODQ5LTYuODQ5DQoJCWM3LjQxOS00LjU3LDE2LjE4LTguNzU4LDI2LjI2Mi0xMi41NjVjMTAuMDg4LTMuODA1LDE3LjgwMi00Ljg1MywyMy4xMzQtMy4xMzhjOC41NjIsMjEuNTA5LDkuMzI1LDQwLjkyMiwyLjI3OSw1OC4yNA0KCQljMTUuMDM2LDE2LjE4LDIyLjU1OSwzNS43ODcsMjIuNTU5LDU4LjgxN2MwLDE2LjE3OC0xLjk1OCwzMC40OTctNS44NTMsNDIuOTY2Yy0zLjksMTIuNDcxLTguOTQxLDIyLjQ1Ny0xNS4xMjUsMjkuOTc5DQoJCWMtNi4xOTEsNy41MjEtMTMuOTAxLDEzLjg1LTIzLjEzMSwxOC45ODZjLTkuMjMyLDUuMTQtMTguMTgyLDguODUtMjYuODQsMTEuMTM2Yy04LjY2MiwyLjI4Ni0xOC40MTUsNC4wMDQtMjkuMjYzLDUuMTQ2DQoJCWM5Ljg5NCw4LjU2MiwxNC44NDIsMjIuMDc3LDE0Ljg0Miw0MC41Mzl2NjAuMjM3YzAsMy40MjIsMS4xOSw2LjI3OSwzLjU3Miw4LjU2MmMyLjM3OSwyLjI3OSw2LjEzNiwyLjk1LDExLjI3NiwxLjk5NQ0KCQljNDQuMTYzLTE0LjY1Myw4MC4xODUtNDEuMDYyLDEwOC4wNjgtNzkuMjI2YzI3Ljg4LTM4LjE2MSw0MS44MjUtODEuMTI2LDQxLjgyNS0xMjguOTA2DQoJCUM0MzguNTM2LDE4NC44NTEsNDI4LjcyOCwxNDguMTY4LDQwOS4xMzIsMTE0LjU3M3oiLz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjwvc3ZnPg0K');
+    }
+
+    .contact .email::before {
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMCAzdjE4aDI0di0xOGgtMjR6bTYuNjIzIDcuOTI5bC00LjYyMyA1LjcxMnYtOS40NThsNC42MjMgMy43NDZ6bS00LjE0MS01LjkyOWgxOS4wMzVsLTkuNTE3IDcuNzEzLTkuNTE4LTcuNzEzem01LjY5NCA3LjE4OGwzLjgyNCAzLjA5OSAzLjgzLTMuMTA0IDUuNjEyIDYuODE3aC0xOC43NzlsNS41MTMtNi44MTJ6bTkuMjA4LTEuMjY0bDQuNjE2LTMuNzQxdjkuMzQ4bC00LjYxNi01LjYwN3oiLz48L3N2Zz4=');
+    }
+
+    .contact .phone::before {
+      background-image: url("data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9JzMwMHB4JyB3aWR0aD0nMzAwcHgnICBmaWxsPSIjMDAwMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMTAwIDEwMCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggZD0iTTkwLjEsNzUuMWwtMC41LTFjLTEuNC0zLjMtMTguNi04LjMtMjAtOC40bC0xLjEsMC4xYy0yLjEsMC40LTQuNCwyLjMtOC45LDYuMmMtMC45LDAuOC0yLjEsMS0zLjIsMC40ICBjLTUuOS0zLjMtMTMuMS05LjktMTYuNy0xMy45Yy0zLjktNC4zLTguNi0xMS40LTEwLjgtMTcuMWMtMC40LTEuMSwwLTIuMywwLjgtMy4xYzUuMS00LjYsNy4zLTYuOCw3LjUtOS4yYzAuMS0xLjQtMi45LTE5LjEtNi0yMC44ICBsLTAuOS0wLjZjLTItMS4zLTUtMy4yLTguMy0yLjVjLTAuOCwwLjItMS42LDAuNS0yLjMsMC45QzE3LjUsNy41LDEyLDExLjMsOS41LDE2LjJDOCwxOS4zLDcuMyw0Ny40LDI4LjMsNzEuMSAgYzIwLjgsMjMuNSw0Ni41LDI0LjUsNTAuMywyMy43bDAuMSwwbDAuMy0wLjFjNS4yLTEuOSw5LjYtNi44LDExLjMtOC45QzkzLjQsODIuMSw5MS4zLDc3LjYsOTAuMSw3NS4xeiI+PC9wYXRoPjwvc3ZnPg==");
+    }
+
+    * { margin: 0; padding: 0; }
+    body {
+      font: 16px Helvetica, Sans-Serif;
+      line-height: 24px;
+      /* background: url(images/noise.jpg); */
+    }
+    .clear { clear: both; }
+    #page-wrap { width: 800px; margin: 40px auto 60px; }
+    #pic { float: right; margin: -30px 0 0 0; }
+    h1.fn {
+      margin: 0 0 1rem 0;
+      padding: 0 0 1rem 0;
+      font-size: 2.625rem;
+      font-weight: bold;
+      letter-spacing: -0.125rem;
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
+      width: 26rem;
+      float:left;
+      border-image-source: 
+        linear-gradient(
+          to right, 
+          #00000088, 
+          #00000000
+        );
+        border-image-slice: 0 0 1 0;
+    }
+    h2 {
+      font-size: 20px;
+      margin: 0 0 6px 0;
+      position: relative;
+    }
+    h2.two-part {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      column-gap: 1.0em;
+    }
+    h2 .location::before {
+      content: "\002013\0000a0";
+    }
+    h2 .location {
+      font-size: 1.1rem;
+      font-weight: normal;
+    }
+    h2.two-part >:nth-child(2) {
+      font-style: italic;
+      font-family: Georgia, Serif;
+      font-size: 16px;
+      color: #777;
+      font-weight: normal;
+      justify-self: right;
+      text-align: right;
+    }
+    p { margin: 0 0 16px 0; }
+
+    a { color: #555; text-decoration: none; border-bottom: 1px dotted #555; }
+    a:hover { border-bottom-style: solid; color: black; }
+    @media print {
+      a {
+        color: black;
+        border-bottom: none;
+      }
+    }
+
+    ul {
+      margin-left: 1.05rem;
+      /* margin: 0 0 32px 17px; */
+    }
+    h2:not(:first-child) {
+      margin-top: 0.8rem;
+    }
+    #objective { width: 500px; float: left; }
+    #objective p { font-family: Georgia, Serif; font-style: italic; color: #666; }
+    dt {
+      clear: both;
+      font-style: italic;
+      font-weight: bold;
+      font-size: 1.125em;
+      text-align: right;
+      padding: 0 0.75rem 0 0;
+      width: 9.375rem;
+      float: left;
+      height: 1.875em;
+      border-right-width: 1px;
+      border-bottom-width: 1px;
+      border-right-style: solid;
+      border-bottom-style: solid;
+      border-image-source: 
+        linear-gradient(
+          225deg, 
+          #00000088, 
+          #00000000
+        );
+        border-image-slice: 0 1 1 0;
+    }
+    dt.short {
+      height: 1.5em;
+    }
+    dd { width: 600px; float: right; }
+    dd.clear { float: none; margin: 0; height: 1.5rem; }
+
+    .itemlist {
+      display: grid;
+      row-gap: 0.3rem;
+      column-gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(10em, 1fr));
+    }
+
+    .project-desc {
+      margin-right: 0.4rem;
+    }
+
+    body {
+      /* width: 11in;
+      height: 8.5in;
+      overflow: hidden;
+      font-family: sans-serif; */
+    }
+    
+    @media print {
+    
+    }
+    
+      </style>
+
+<div id="page-wrap">
+    
+  <div id="contact-info" class="vcard">
+  
+      <!-- Microformats! -->
+  
+      <h1 class="fn">Michael Lamparski</h1>
+  
+      <div class='contact'>
+        <span class='location'>Albany, NY</span>
+        <span class='phone'>518-356-0936</span>
+        <span class='email'><a href="mailto:diagonaldevice@gmail.com">diagonaldevice@gmail.com</a></span>
+        <span class='github'><a href="https://github.com/ExpHP"><code>ExpHP</code></a></span>
+      </div>
+  </div>
+          
+  <div id="objective">
+      <p>
+        I am a recent college graduate who loves a challenge above all else.  I have a mathy mind,
+        strong attention to detail, and, supposedly, a caring personality. I believe in avoiding
+        technical debt, and refactoring by the right amount at the right time; and that some
+        unit testing now might help keep things from getting worse tomorrow.
+      </p>
+  </div>
+  
+  <div class="clear"></div>
+  
+  <dl>
+      <!--
+        These are used to create gaps in the line.  Maybe there's a cleaner solution using margins but
+        what I tried didn't work too well with the float styles.
+      -->
+      <dd class="clear"></dd>
+      
+      <dt>Skills</dt>
+      <dd>
+          <h2>Technical skills</h2>
+          <div class='itemlist'>
+            <span>programming</span>
+            <span>profiling &amp; optimization</span>
+            <span>collaboration through git</span>
+            <span>technical writing</span>
+            <span>data analysis</span>
+          </div>
+          <h2>Languages</h2>
+          <div class='itemlist'>
+            <span>Rust</span>
+            <span>Python</span>
+            <span>C++ and some C</span>
+            <span><code>sh/bash</code></span>
+            <span>JS</span>
+          </div>
+      </dd>
+
+      <dd class="clear"></dd>
+      <dt>Projects</dt>
+      <dd>
+          <ul>
+            <li><span class="project-desc">Bugfixes and optimizations contributed to:</span> rustc, numpy, phonopy</li>
+            <li><span class="project-desc">Research code during PhD:</span> <a href="https://github.com/ExpHP/rsp2#readme" target="_blank">https://github.com/ExpHP/rsp2</a></li>
+            <li><span class="project-desc">Compiler pet project:</span> <a href="https://github.com/ExpHP/truth#readme" target="_blank">https://github.com/ExpHP/truth</a></li>
+            <!-- <li><span class="project-desc">Resource for auditing <code>unsafe</code> code in rust:</span> <a href="https://exphp.github.io/unsafe-gotchas">exphp.github.io/unsafe-gotchas</a></li> -->
+            <!-- <li><span class="project-desc">Website made in TypeScript:</span> <a href="https://exphp.github.io/thpages">exphp.github.io/thpages</a></li> -->
+          </ul>
+      </dd>
+
+      <dd class="clear"></dd>
+      <dt>Past employment</dt>
+      <dd>
+          <h2 class='two-part'>
+            <span>Rensselaer Polytechnic Institute</span>
+            <span>Research Assistant/Teaching Assistant &mdash; 2015&ndash;2020</span>
+          </h2>
+          <ul>
+            <li>Wrote innovative code for computing dynamical properties of carbon</li>
+            <li>Collaborated with field experts worldwide</li>
+            <!-- <li>Wrote code to compute and analyze dynamical properties of carbon</li> -->
+            <!-- <li>Contributed bugfixes &amp; performance improvements to upstream projects</li> -->
+            <!-- <li>Co-authored six published papers in condensed matter physics</li> -->
+          </ul>
+      </dd>
+
+      <dd class="clear"></dd>
+      <dt>Education</dt>
+      <dd>
+        <h2 class='two-part'>
+          <span>
+            Ph.D. in Physics
+            <span class='location'>Rensselaer Polytechnic Institute</span>
+          </span>
+          
+          <span>August 2020</span>
+        </h2>
+        <!-- <ul>
+          <li>Emphasis in Computational Physics, modeling of bilayer graphene</li>
+        </ul> -->
+        
+        <h2 class='two-part'>
+          <span>
+            <span>B.S. in Physics</span>
+            <span class='location'>Rensselaer Polytechnic Institute</span>
+          </span>
+          <span>May 2014</span>
+        </h2>
+        <!-- <ul> -->
+          <!-- <li> -->
+            Magna cum laude; Dean's List all semesters
+          <!-- </li> -->
+        <!-- </ul> -->
+        <h2 class='two-part'>
+          <span>
+            <span>A.S. in Comp. Sci</span>
+            <span class='location'>Schenectady County Community College</span>
+          </span>
+          <span>May 2012</span>
+        </h2>
+        <!-- <ul> -->
+          <!-- <li> -->
+            Graduated with high honors; President's List all semesters
+          <!-- </li> -->
+        <!-- </ul> -->
+      </dd>
+
+      <!-- <dd class="clear"></dd>
+      <dt class="short">Hobbies</dt>
+      <dd>
+        <div class='itemlist'>
+          <span>Puzzle solving</span>
+          <span>Hiking</span>
+          <span>Modding video games</span>
+          <span>Roleplaying (D&amp;D)</span>
+          <span>I once "wrote an OS"</span>
+        </div>
+      </dd> -->
+
+      <dd class="clear"></dd>
+      <dt class="short">Achievements</dt>
+      <dd>
+        <ul>
+          <li>209 problems solved on Project Euler</li>
+          <li>Placed 66th in Advent of Code 2019</li>
+        </ul>
+      </dd>
+
+      <!-- <dd class="clear"></dd>
+      <dt class="short">References</dt>
+      <dd>Available on request</dd> -->
+  </dl>
+
+</div>
+</body>
+</html>
