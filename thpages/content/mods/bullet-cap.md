@@ -1,6 +1,6 @@
-[title=bullet_cap patch]
-
 # `ExpHP/bullet_cap`
+
+::title[bullet_cap patch]
 
 **Available through thcrap.**
 
@@ -26,7 +26,7 @@ You can configure the caps using thcrap's recently added `options` feature.  The
 
 Look inside `<thcrap_dir>/config` for the file for your patch stack where you installed the patch.  E.g. if you're trying to play using a shortcut titled `th08 (myconfig)`, then look at `<thcrap_dir>/config/myconfig.js`. In this file, find the entry corresponding to `bullet_cap` in the `"patches"` array, and add a `"config"` object with `"options"` as follows:
 
-[code=json]
+~~~json
 {
   ...
   "patches": [
@@ -47,7 +47,7 @@ Look inside `<thcrap_dir>/config` for the file for your patch stack where you in
     ...
   ]
 }
-[/code]
+~~~
 
 The values in the example above are the patch defaults for MoF: 16\*2000 bullets, 16\*256 lasers, and 16\*2048 cancel items.
 
@@ -67,11 +67,11 @@ There are currently some technical limitations in specific games, due to how the
 
 Here are some additional options, along with their default values.
 
-[code=json]
+~~~json
 "bullet-cap.fairy-bullet-cap": {"val": "0xaf0"},
 "bullet-cap.rival-bullet-cap": {"val": "0x1680"},
 "bullet-cap.anm-search-lag-spike-size": {"val": "0x2000"},
-[/code]
+~~~
 
 * **`fairy-bullet-cap`** and **`rival-bullet-cap`**: These are the bullet caps for PoFV; one for fairy popcorn and one for the rival's L2+ charge attacks. (`bullet-cap` is ignored in this game)
 * **`anm-search-lag-spike-size`**:  This patch automatically softens some quadratic lag spike behavior when canceling many bullets in the following games: MoF, SA, TD.  You can configure the softening here; bigger number here = more lag. `0` will remove the lag spikes completely, while `"0x7fffffff"` will bring back the full vanilla behavior.
@@ -103,7 +103,7 @@ Yes.  By default, each cap will be set to 16 times its original, vanilla value i
 <!--
 | Cap          | EoSD | PCB  | IN       | PoFV | StB  | MoF  | SA   | UFO  | DS   | GFW  | TD   | DDC  | ISC  | LoLK | HSiFS | VD  | WBaWC |
 -->
-| Cap          | [game=06] | [game=07] | [game=08] | [game=09] | [game=095] | [game=10] | [game=11] | [game=12] | [game=125] | [game=128] | [game=13] | [game=14] | [game=143] | [game=15] | [game=16] | [game=165] | [game=17] | [game=18] |
+| Cap          | :game[06] | :game[07] | :game[08] | :game[09] | :game[095] | :game[10] | :game[11] | :game[12] | :game[125] | :game[128] | :game[13] | :game[14] | :game[143] | :game[15] | :game[16] | :game[165] | :game[17] | :game[18] |
 | ---          | ---  | ---  | ---  | ---  | ---  | ---  | ---  | ---  | ---  | ---  | ---  | ---  | ---  | ---  | ---  | ---  | ---  | ---  |
 | `bullet-cap` | 640  | 1024 | 1536 | N/A  | 1600 | 2000 | 2000 | 2000 | 2000 | 2000 | 2000 | 2000 | 2000 | 2000 | 2000 | 2000 | 2000 | 2000 |
 | `laser-cap`  | 64   | 64   | 256  | 48   | 256  | 256  | 256  | 256  | 256  | 256  | 256  | 256  | 256  | 512  | 512  | 512  | 512  | 512  |
@@ -117,19 +117,19 @@ And for PoFV:
 
 Basically, these games may still undergo replay-breaking changes at some point in the future.  While I've tested them pretty thoroughly, they are more complicated than the other games and there may still be bugs.  So I'd like to see some other people playtesting them before I declare them as "TAS-ready."
 
-[game=15] and onwards are also difficult because of additional arrays that are related to pointdevice.
+:game[15] and onwards are also difficult because of additional arrays that are related to pointdevice.
 
-## <span id="vd"></span> And VD is in alpha?!
+## And VD is in alpha?! {#vd}
 
-I have only given [game=165] superficial playtesting and have little desire to go further.  If you use it you're basically signing up as my guinea pig.
+I have only given :game[165] superficial playtesting and have little desire to go further.  If you use it you're basically signing up as my guinea pig.
 
-In addition to still having the bullet pointdevice array, [game=165] is made even worse by its camera charge items having a cap of 200.  It is very difficult to locate all of the places where this cap appears in the code.  If I missed any, then that part of the code is likely to crash when using a reduced cap, and to produce fewer items than expected when using an increased cap.
+In addition to still having the bullet pointdevice array, :game[165] is made even worse by its camera charge items having a cap of 200.  It is very difficult to locate all of the places where this cap appears in the code.  If I missed any, then that part of the code is likely to crash when using a reduced cap, and to produce fewer items than expected when using an increased cap.
 
 ## "Cancel item cap"?
 
-In all games from [game=10] onwards, cancel items live in a separate array from normal items.  I am simply referring to the length of this array.
+In all games from :game[10] onwards, cancel items live in a separate array from normal items.  I am simply referring to the length of this array.
 
-In [game-th=06]&ndash;[game-th=08], there is only one item array.  For these games, `cancel-cap` basically acts as a general item cap then.
+In :game-th[06]&ndash;:game-th[08], there is only one item array.  For these games, `cancel-cap` basically acts as a general item cap then.
 
 ## GFW has huge lag spikes when I freeze many bullets!
 
@@ -142,13 +142,13 @@ This is a known bug that can affect games TH14 and onwards.  It is due to ANM id
 ## (TH15-165) The game crashes when I Esc-R, or exit to main menu and start another game
 This problem should be fixed now!  Please let me know if it's still happening.
 
-[more]
+:::more
 I observed this happening in TH16.  Ironically, the cause of the crash was related to a fix for some vanilla crashes in these games.
 
 Basically it was a failed `malloc` for one of the enlarged globals (`BulletManager` or `ItemManager`).  Pointdevice and copious amounts of wasted space on the Bullet struct in these three games make the structs obscenely large (312 MiB BulletManager for 16x cap in TH16!).  It only seemed to crash if you've at some point had an extremely large cancel producing lots of VMs, suggesting that part of the issue was the buffers left behind by `ExpHP/anm_leak` (the fix for the vanilla crashes).  Most likely, they were making it difficult for the OS to find large enough contiguous regions of the 32-bit address space so that everything can have all the memory it needs when it reallocates them all on a reset.
 
 The solution was to keep `BulletManager` allocated, the same way that `ExpHP/anm_leak` keeps the VM allocations.  I haven't bothered to do the same yet with `ItemManager` since items are much smaller, but in the future this may also be necessary.
-[/more]
+:::
 
 ## If the laser cap is too small during the Prismriver's last spell or PCB's manji spells, the game crashes on exiting the stage
 
@@ -210,7 +210,7 @@ And for some examples of what **not** to use, from the same game:
   0042f374  f3ab               rep stosd dword [edi]
   ```
 
-## <span id="finding-arrays">My patch needs to access one of the arrays or some field on `BulletManager`, but you move things all around!</span>
+## My patch needs to access one of the arrays or some field on `BulletManager`, but you move things all around! {#finding-arrays}
 
 Add [`ExpHP/base_exphp`](https://github.com/ExpHP/thcrap-patches/tree/master/patches/base_exphp#readme) as a dependency.  That patch defines a codecave named `codecave:base-exphp.adjust-field-ptr`, which you can use to find anything you need to on `BulletManager` or `ItemManager`.  Please follow the link for more information and examples on how to use it.
 

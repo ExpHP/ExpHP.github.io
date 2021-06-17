@@ -1,9 +1,10 @@
-[title=za warudo mods]
 # za warudo mods
+
+::title[za warudo mods]
 
 **Available through thcrap:**
 
-* **Main mod:** `ExpHP/nopause_enm`  (supports [tip=but you can&#39;t see anything]TH10[/tip], TH11-TH17 and DS)
+* **Main mod:** `ExpHP/nopause_enm`  (supports :tip[TH10]{tip="but you can&#39;t see anything"}, TH11-TH17 and DS)
 * **Recommended addition:** `ExpHP/nopauseblur`  (supports TH15-TH17 and VD)
 
 [Gameplay video](https://youtu.be/pekM4K793Tg)
@@ -17,10 +18,10 @@ Makes enemies continue to run even while the game is paused, producing giant wav
 
 Because we stands.
 
-[more]
+:::more
 ...ok so, Touhou has a set of update functions that run each frame.  There's one for updating enemies, one for updating the player, one for navigating the Pause menu, etc.  Each one of these functions also has a number associated with it, called its **priority.**  The ones with lower priorities always run first.
 
 One of these functions has the special responsibility of *preventing the rest of the functions after it from running* while the game is paused.  All this patch does is adjust the priorities of some update funcs to run before that special function.
 
 (on that note, TH08 cannot be supported because the same update func that prevents things from running on pause (priority 0x02) is also the one that crucially prevents them from running while the stage is still being loaded!)
-[/more]
+:::
