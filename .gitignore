@@ -9,3 +9,6 @@ Gemfile.lock
 # jekyll output
 _site
 
+# created by thpages deploy script
+thpages.bak
+
