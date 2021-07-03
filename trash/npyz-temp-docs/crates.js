@@ -1,0 +1,1 @@
+window.ALL_CRATES = ["adler","byteorder","bzip2","bzip2_sys","cfg_if","crc32fast","flate2","libc","memchr","miniz_oxide","nippy","nippy_derive","nom","npyz","npyz_derive","num_complex","num_traits","proc_macro2","quote","syn","thiserror","thiserror_impl","time","unicode_xid","zip"];
