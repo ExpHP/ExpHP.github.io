@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["v",""],["vdot",""],["vnorm",""],["vnormalize",""],["vsqnorm",""]],"struct":[["BadNorm",""],["V","Implements element-wise operations."]],"trait":[["AllowedV","This exists to give you better errors when you accidentally construct a `V<&Vec<f64>>`."],["MakeV","Implementation detail of `v`."]],"type":[["VMut",""],["VOwn",""],["VRef",""]]});

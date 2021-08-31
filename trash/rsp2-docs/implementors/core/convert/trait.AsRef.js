@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["rsp2_fs_util"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html\" title=\"trait core::convert::AsRef\">AsRef</a>&lt;<a class=\"struct\" href=\"https://doc.rust-lang.org/nightly/std/path/struct.Path.html\" title=\"struct std::path::Path\">Path</a>&gt; for <a class=\"struct\" href=\"rsp2_fs_util/struct.TempDir.html\" title=\"struct rsp2_fs_util::TempDir\">TempDir</a>","synthetic":false,"types":["rsp2_fs_util::tempdir::TempDir"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

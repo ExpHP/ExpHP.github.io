@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ErrorKind",""]],"fn":[["linesearch",""]],"struct":[["LinesearchError","`linesearch` error type"],["Settings",""]],"trait":[["DiffFn1D",""]]});

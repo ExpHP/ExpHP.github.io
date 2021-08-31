@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["PathConfig",""],["RefinementMode",""]],"fn":[["compute_work_along_path",""]],"struct":[["BasePath",""]]});

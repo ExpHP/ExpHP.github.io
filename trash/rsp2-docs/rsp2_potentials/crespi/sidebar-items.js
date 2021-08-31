@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["unit","Differential of the function that produces a unit vector."],["unit_cross","Differential of `unit(a ⨯ b)`."]],"struct":[["Output",""],["Params",""]]});

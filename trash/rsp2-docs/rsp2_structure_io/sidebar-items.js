@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["FailOk",""]],"mod":[["assemble",""],["layers_yaml",""],["v_sim",""]],"struct":[["Poscar",""],["Xyz",""]],"type":[["FailResult",""]]});

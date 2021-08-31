@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["RawBee","BTreeMap-based representation."],["RawCoo","Coordinate format."],["RawCsr","Compressed sparse row."],["SparseMatrixError","Returned by `validate` to indicate that a sparse matrix is invalid."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["_read",""],["apply_displacement",""],["read",""]],"struct":[["PhonopyDispYaml","A parsed form of `phonopy_disp.yaml`"]]});

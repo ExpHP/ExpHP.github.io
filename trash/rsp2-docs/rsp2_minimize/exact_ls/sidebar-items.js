@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ErrorKind",""]],"fn":[["linesearch",""]],"mod":[["golden",""]],"struct":[["Bound",""],["Golden","Builder for golden search"],["GoldenSearchError",""],["Slope",""],["SlopeBound",""],["Value",""],["ValueBound",""]],"type":[["Interval",""],["OneDeeFn",""],["SlopeFn",""],["SlopeInterval",""],["ValueFn",""]]});

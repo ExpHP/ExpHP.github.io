@@ -1,0 +1,4 @@
+(function() {var implementors = {};
+implementors["rsp2_bond_polarizability"] = [{"text":"impl&lt;V&gt; Enum&lt;V&gt; for <a class=\"enum\" href=\"rsp2_bond_polarizability/enum.BondType.html\" title=\"enum rsp2_bond_polarizability::BondType\">BondType</a>","synthetic":false,"types":["rsp2_bond_polarizability::BondType"]}];
+implementors["rsp2_potentials"] = [{"text":"impl&lt;V&gt; Enum&lt;V&gt; for <a class=\"enum\" href=\"rsp2_potentials/rebo/nonreactive/enum.AtomType.html\" title=\"enum rsp2_potentials::rebo::nonreactive::AtomType\">AtomType</a>","synthetic":false,"types":["rsp2_potentials::rebo::nonreactive::AtomType"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

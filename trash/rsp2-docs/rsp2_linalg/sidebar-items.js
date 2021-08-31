@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["dot",""],["lapacke_least_squares_svd","Minimizes 2-norm of `matrix * x - rhs` using LAPACKe’s dgelss."],["lapacke_linear_solve","Solves `output = square * rhs` using LAPACKe’s dgesv."],["left_pseudoinverse",""]],"mod":[["dynmat",""]],"struct":[["CMatrix","Owned, contiguous, C-order matrix data."],["DegenerateMatrixError",""]]});

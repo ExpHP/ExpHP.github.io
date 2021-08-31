@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["dot","Inner product of vectors."]],"trait":[["Dot","Implementation detail of the inherent method `{V2,V3,V4}::dot`."],["IsV","Trait that provides associated types for `V2, V3, V4`."],["RandomUnit","Implementation detail of the inherent method `{V2,V3,V4}::random_unit`."]],"type":[["ScalarT","Element type of the vector."]]});

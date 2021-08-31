@@ -1,0 +1,4 @@
+(function() {var implementors = {};
+implementors["rsp2_assert_close"] = [];
+implementors["rsp2_structure"] = [{"text":"impl <a class=\"trait\" href=\"rsp2_assert_close/trait.CheckClose.html\" title=\"trait rsp2_assert_close::CheckClose\">CheckClose</a>&lt;<a class=\"struct\" href=\"rsp2_structure/struct.Lattice.html\" title=\"struct rsp2_structure::Lattice\">Lattice</a>&gt; for <a class=\"struct\" href=\"rsp2_structure/struct.Lattice.html\" title=\"struct rsp2_structure::Lattice\">Lattice</a>","synthetic":false,"types":["rsp2_structure::core::lattice::Lattice"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

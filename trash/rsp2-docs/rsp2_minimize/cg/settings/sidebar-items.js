@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Beta",""],["Linesearch",""],["OnLsFailure","Behavior when a linesearch along the steepest descent direction fails. (this is phenomenally rare for the Hager linesearch method, and when it does occur it may very well be due to exceptionally good convergence, rather than any sort of actual failure)"]]});

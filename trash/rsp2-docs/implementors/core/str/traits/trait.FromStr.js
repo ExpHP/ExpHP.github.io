@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["rsp2_structure"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/str/traits/trait.FromStr.html\" title=\"trait core::str::traits::FromStr\">FromStr</a> for <a class=\"struct\" href=\"rsp2_structure/struct.Element.html\" title=\"struct rsp2_structure::Element\">Element</a>","synthetic":false,"types":["rsp2_structure::element::Element"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

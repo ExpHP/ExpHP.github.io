@@ -1,0 +1,395 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/io/lammps/low_level/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings"></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../rsp2_lammps_wrap/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
+                <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<span id="2">  2</span>
+<span id="3">  3</span>
+<span id="4">  4</span>
+<span id="5">  5</span>
+<span id="6">  6</span>
+<span id="7">  7</span>
+<span id="8">  8</span>
+<span id="9">  9</span>
+<span id="10"> 10</span>
+<span id="11"> 11</span>
+<span id="12"> 12</span>
+<span id="13"> 13</span>
+<span id="14"> 14</span>
+<span id="15"> 15</span>
+<span id="16"> 16</span>
+<span id="17"> 17</span>
+<span id="18"> 18</span>
+<span id="19"> 19</span>
+<span id="20"> 20</span>
+<span id="21"> 21</span>
+<span id="22"> 22</span>
+<span id="23"> 23</span>
+<span id="24"> 24</span>
+<span id="25"> 25</span>
+<span id="26"> 26</span>
+<span id="27"> 27</span>
+<span id="28"> 28</span>
+<span id="29"> 29</span>
+<span id="30"> 30</span>
+<span id="31"> 31</span>
+<span id="32"> 32</span>
+<span id="33"> 33</span>
+<span id="34"> 34</span>
+<span id="35"> 35</span>
+<span id="36"> 36</span>
+<span id="37"> 37</span>
+<span id="38"> 38</span>
+<span id="39"> 39</span>
+<span id="40"> 40</span>
+<span id="41"> 41</span>
+<span id="42"> 42</span>
+<span id="43"> 43</span>
+<span id="44"> 44</span>
+<span id="45"> 45</span>
+<span id="46"> 46</span>
+<span id="47"> 47</span>
+<span id="48"> 48</span>
+<span id="49"> 49</span>
+<span id="50"> 50</span>
+<span id="51"> 51</span>
+<span id="52"> 52</span>
+<span id="53"> 53</span>
+<span id="54"> 54</span>
+<span id="55"> 55</span>
+<span id="56"> 56</span>
+<span id="57"> 57</span>
+<span id="58"> 58</span>
+<span id="59"> 59</span>
+<span id="60"> 60</span>
+<span id="61"> 61</span>
+<span id="62"> 62</span>
+<span id="63"> 63</span>
+<span id="64"> 64</span>
+<span id="65"> 65</span>
+<span id="66"> 66</span>
+<span id="67"> 67</span>
+<span id="68"> 68</span>
+<span id="69"> 69</span>
+<span id="70"> 70</span>
+<span id="71"> 71</span>
+<span id="72"> 72</span>
+<span id="73"> 73</span>
+<span id="74"> 74</span>
+<span id="75"> 75</span>
+<span id="76"> 76</span>
+<span id="77"> 77</span>
+<span id="78"> 78</span>
+<span id="79"> 79</span>
+<span id="80"> 80</span>
+<span id="81"> 81</span>
+<span id="82"> 82</span>
+<span id="83"> 83</span>
+<span id="84"> 84</span>
+<span id="85"> 85</span>
+<span id="86"> 86</span>
+<span id="87"> 87</span>
+<span id="88"> 88</span>
+<span id="89"> 89</span>
+<span id="90"> 90</span>
+<span id="91"> 91</span>
+<span id="92"> 92</span>
+<span id="93"> 93</span>
+<span id="94"> 94</span>
+<span id="95"> 95</span>
+<span id="96"> 96</span>
+<span id="97"> 97</span>
+<span id="98"> 98</span>
+<span id="99"> 99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+</pre><div class="example-wrap"><pre class="rust ">
+<span class="comment">/* ********************************************************************** **
+**  This file is part of rsp2.                                            **
+**                                                                        **
+**  rsp2 is free software: you can redistribute it and/or modify it under **
+**  the terms of the GNU General Public License as published by the Free  **
+**  Software Foundation, either version 3 of the License, or (at your     **
+**  option) any later version.                                            **
+**                                                                        **
+**      http://www.gnu.org/licenses/                                      **
+**                                                                        **
+** Do note that, while the whole of rsp2 is licensed under the GPL, many  **
+** parts of it are licensed under more permissive terms.                  **
+** ********************************************************************** */</span>
+
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::FailResult</span>;
+
+<span class="kw">use</span> <span class="ident">std::os::raw</span>::{<span class="ident">c_int</span>};
+<span class="kw">use</span> <span class="ident">std::fmt</span>;
+<span class="kw">use</span> <span class="ident">failure::Backtrace</span>;
+
+<span class="macro">macro_rules!</span> <span class="ident">api_trace</span> {
+    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> { <span class="macro">log!</span>(<span class="ident">target</span>: <span class="kw">crate</span><span class="ident">::API_TRACE_TARGET</span>, <span class="kw">crate</span><span class="ident">::API_TRACE_LEVEL</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>)<span class="kw-2">*</span>) };
+}
+
+<span class="doccomment">/// An error thrown by the LAMMPS C API.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Fail</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LammpsError</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">backtrace</span>: <span class="ident">Backtrace</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">severity</span>: <span class="ident">Severity</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">message</span>: <span class="ident">String</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">LammpsError</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt::Result</span> {
+        <span class="macro">write!</span>(
+            <span class="ident">f</span>, <span class="string">&quot;LAMMPS threw {}: {}&quot;</span>,
+            <span class="kw">match</span> <span class="self">self</span>.<span class="ident">severity</span> {
+                <span class="ident">Severity::Recoverable</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;an exception&quot;</span>,
+                <span class="ident">Severity::Fatal</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;a fatal exception&quot;</span>,
+            },
+            <span class="self">self</span>.<span class="ident">message</span>,
+        )
+    }
+}
+
+<span class="attribute">#[<span class="ident">macro_use</span>]</span>
+<span class="kw">mod</span> <span class="ident">c_enum_macros</span>;
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use</span> <span class="self">self</span><span class="ident">::plain::LammpsOwner</span>;
+<span class="kw">mod</span> <span class="ident">plain</span>;
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mpi&quot;</span>)]</span>
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">mpi</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mpi&quot;</span>)]</span>
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">mpi_helper</span>;
+
+<span class="macro">c_enums!</span>{
+    [<span class="kw">pub</span>(<span class="kw">crate</span>)] <span class="kw">enum</span> <span class="ident">ComputeStyle</span> {
+        <span class="ident">Global</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="ident">PerAtom</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="ident">Local</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+
+    [] <span class="kw">enum</span> <span class="ident">ComputeType</span> {
+        <span class="ident">Scalar</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="ident">Vector</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="ident">Array</span> <span class="op">=</span> <span class="number">2</span>, <span class="comment">// 2D</span>
+    }
+
+    [] <span class="kw">enum</span> <span class="ident">ScatterGatherDatatype</span> {
+        <span class="ident">Integer</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="ident">Float</span> <span class="op">=</span> <span class="number">1</span>,
+    }
+
+    [<span class="kw">pub</span>] <span class="kw">enum</span> <span class="ident">Severity</span> {
+        <span class="ident">Recoverable</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="ident">Fatal</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
+
+<span class="macro">derive_into_from_as_cast!</span>{
+    <span class="ident">ComputeStyle</span> <span class="kw">as</span> <span class="ident">c_int</span>;
+    <span class="ident">ComputeType</span> <span class="kw">as</span> <span class="ident">c_int</span>;
+    <span class="ident">ScatterGatherDatatype</span> <span class="kw">as</span> <span class="ident">c_int</span>;
+}
+
+<span class="comment">// (struct with named fields to create fewer independent places where</span>
+<span class="comment">//  things could be written in the wrong order)</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">Skews</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">xy</span>: <span class="ident">f64</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">yz</span>: <span class="ident">f64</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">xz</span>: <span class="ident">f64</span>,
+}
+
+<span class="doccomment">/// Common interface for the low-level API, which wraps the C api with more rusty signatures.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The design is fairly conservative, trying to make as few design choices</span>
+<span class="doccomment">/// as necessary.  As a result, some exposed functions are still unsafe.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Why is this messy thing a trait?</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// For better or worse, this thing is basically the former set of inherent methods of LammpsOwner,</span>
+<span class="doccomment">/// recast as a trait to allow abstracting over the presence or absence of MPI:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// * There is `LammpsOwner`, which directly wraps C API functions.</span>
+<span class="doccomment">/// * ...and there&#39;s now `MpiLammpsOwner`, a conditionally-compiled type which uses `MpiOnDemand`</span>
+<span class="doccomment">///   to factor out all logic for non-root processes into a single, moderately ugly event loop.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Adding this layer of indirection vastly simplifies the implementation of the higher-level APIs</span>
+<span class="doccomment">/// in this crate so that everything can continue to be written as though it is always executed on</span>
+<span class="doccomment">/// a single process.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Why is every argument taken as an owned type?</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// For ease of codegen.  Notice that the `Input` enum in `low_level::mpi` must consist entirely</span>
+<span class="doccomment">/// of owned data, because it must implement `Broadcast`.</span>
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait</span> <span class="ident">LowLevelApi</span> {
+    <span class="kw">fn</span> <span class="ident">command</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">cmd</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FailResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
+
+    <span class="kw">fn</span> <span class="ident">get_natoms</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span>;
+
+    <span class="doccomment">/// Initializes all positions in a manner which ensures that they are</span>
+    <span class="doccomment">/// associated with the correct processors.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This appears on LowLevelApi as a workaround to help minimize MPI overhead.</span>
+    <span class="kw">fn</span> <span class="ident">init_atoms</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">carts</span>: <span class="ident">Vec</span><span class="op">&lt;</span>[<span class="ident">f64</span>; <span class="number">3</span>]<span class="op">&gt;</span>, <span class="ident">types</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FailResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
+
+    <span class="doccomment">/// Set the lattice.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * Their documentation says &quot;assumes `domain-&gt;set_initial_box()` has been invoked previously&quot;.</span>
+    <span class="doccomment">///   (basically, this means we must call the `create_box` command.)</span>
+    <span class="doccomment">/// * Because their implementation does not trap for exceptions, it clearly</span>
+    <span class="doccomment">///   accepts boxes that would not otherwise be allowed by lammps.</span>
+    <span class="doccomment">///   I don&#39;t know if violation of these invariants can trigger UB, but again,</span>
+    <span class="doccomment">///   we might as well just assume the worst.</span>
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">reset_box</span>(
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="ident">low</span>: [<span class="ident">f64</span>; <span class="number">3</span>],
+        <span class="ident">high</span>: [<span class="ident">f64</span>; <span class="number">3</span>],
+        <span class="ident">skews</span>: <span class="ident">Skews</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FailResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
+
+    <span class="doccomment">/// Read a scalar compute, possibly computing it in the process.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// NOTE: There are warnings in extract_compute about making sure it is valid</span>
+    <span class="doccomment">///       to run the compute.  I&#39;m not sure what it means, and it sounds to me</span>
+    <span class="doccomment">///       like this could possibly actually cause UB; I just have no idea how.</span>
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">extract_compute_0d</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FailResult</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>;
+
+    <span class="doccomment">/// Read a vector compute, possibly computing it in the process.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// NOTE: There are warnings in extract_compute about making sure it is valid</span>
+    <span class="doccomment">///       to run the compute.  I&#39;m not sure what it means, and it sounds to me</span>
+    <span class="doccomment">///       like this could possibly actually cause UB; I just have no idea how.</span>
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">extract_compute_1d</span>(
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="ident">name</span>: <span class="ident">String</span>,
+        <span class="ident">style</span>: <span class="ident">ComputeStyle</span>,
+        <span class="ident">len</span>: <span class="ident">usize</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FailResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+
+    <span class="doccomment">/// Gather an integer property across all atoms.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Unsafe because an incorrect &#39;count&#39; or a non-integer field may cause an out-of-bounds read.</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused</span>)]</span> <span class="comment">// FIXME issue #4</span>
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">gather_atoms_i</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="ident">String</span>, <span class="ident">count</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FailResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+
+    <span class="doccomment">/// Gather a floating property across all atoms.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Unsafe because an incorrect &#39;count&#39; or a non-floating field may cause an out-of-bounds read.</span>
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">gather_atoms_f</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="ident">String</span>, <span class="ident">count</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FailResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+
+    <span class="doccomment">/// Write an integer property across all atoms.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Unsafe because a non-integer field may copy data of the wrong size,</span>
+    <span class="doccomment">/// and data of inappropriate length could cause an out of bounds write.</span>
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">scatter_atoms_i</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="ident">String</span>, <span class="ident">data</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FailResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
+
+    <span class="doccomment">/// Write a floating property across all atoms.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Unsafe because a non-floating field may copy data of the wrong size,</span>
+    <span class="doccomment">/// and data of inappropriate length could cause an out of bounds write.</span>
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">scatter_atoms_f</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="ident">String</span>, <span class="ident">data</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FailResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
+}
+
+<span class="kw">impl</span> <span class="kw">dyn</span> <span class="ident">LowLevelApi</span> {
+    <span class="doccomment">/// Repeatedly invokes `lammps_command`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// That is to say, it does NOT invoke `lammps_command_list`.</span>
+    <span class="doccomment">/// (Though one should sincerely *hope* this difference does not matter...)</span>
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">commands</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">ToString</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">cmds</span>: <span class="kw">impl</span> <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">=</span><span class="ident">S</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FailResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+    { <span class="ident">cmds</span>.<span class="ident">into_iter</span>().<span class="ident">try_for_each</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">command</span>(<span class="ident">s</span>.<span class="ident">to_string</span>())) }
+}
+</pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="rsp2_lammps_wrap" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>
+    <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script></body></html>

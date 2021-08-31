@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["prelude",""]],"struct":[["Polynomial","A simple polynomial in one term"],["Recenter","Computes `f(center + x)`"],["ScaleX","Computes `f(scale * x)`"],["ScaleY","Computes `scale * f(x)`"]],"trait":[["Differentiable1d",""]]});

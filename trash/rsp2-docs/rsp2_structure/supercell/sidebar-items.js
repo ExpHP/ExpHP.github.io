@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["centered_diagonal","Given dims `[a, b, c]`, makes a supercell of size `[2a + 1, 2b + 1, 2c + 1]`."],["diagonal",""]],"struct":[["BigDisplacement",""],["Builder",""],["SupercellToken","Contains enough information to deconstruct a supercell produced by this library."]],"type":[["OwnedMetas",""]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["DEFAULT_NONZERO_TOL",""]],"macro":[["assert_close",""],["check_close","Like `assert_close`, but produces a result."],["debug_assert_close",""]],"struct":[["CheckCloseError",""],["Tolerances",""]],"trait":[["CheckClose",""]]});

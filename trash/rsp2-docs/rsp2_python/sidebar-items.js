@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["add_to_python_path","Writes rsp2 python modules to a temporary directory and adds it to the `PYTHONPATH` environment variable until the returned RAII guard is dropped."]],"static":[["ROOT_DIR",""]],"struct":[["Guard",""]]});

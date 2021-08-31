@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["PeriodicGraph","Constructs a finite graph representing bonds per unitcell."]],"type":[["Edge",""],["Node",""]]});

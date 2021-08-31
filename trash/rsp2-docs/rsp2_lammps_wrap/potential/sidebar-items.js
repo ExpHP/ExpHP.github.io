@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["None","Represents ‘pair_style none’."]]});

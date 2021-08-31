@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["FailOk",""]],"mod":[["crespi",""],["interactions",""],["rebo",""]],"type":[["FailResult",""],["IoResult","A specialized `Result` type for I/O operations."]]});

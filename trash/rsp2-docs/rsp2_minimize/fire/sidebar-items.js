@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["FireError",""],["Integrator",""]],"struct":[["Builder","Provides a significantly greater level of customization for performing conjugate gradient."],["Failure","An error type extended with some additional data."],["Output",""],["Params",""]]});

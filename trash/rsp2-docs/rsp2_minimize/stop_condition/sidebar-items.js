@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Cereal","Type that stop condition config can deserialize directly into."],["LogicalExpression","Represents logical expressions of T in JSON."]],"mod":[["prelude",""]],"struct":[["Rpn","A composite stop condition expressed in reverse-Polish notation."]],"trait":[["ShouldStop","Generic trait for stop conditions."]]});

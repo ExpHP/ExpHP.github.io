@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["_read",""],["read",""]],"struct":[["Operation","Spacegroup operator from `disp.yaml`."],["SymmetryYaml","A parsed –sym output"]]});

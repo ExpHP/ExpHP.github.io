@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Simple",""]],"type":[["StopCondition","Configuration for the built-in implementation of stop conditions."]]});

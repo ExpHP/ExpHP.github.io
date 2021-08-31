@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["CliTest",""],["Environment","Proof of the global environment for a test case having been set up."]],"trait":[["CheckFile",""]],"type":[["AfterRun",""],["DirChecker",""],["Result",""]]});

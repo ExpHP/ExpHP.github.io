@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["composite_perm_for_part_lifo","Helper function to generate a `Perm` that is useful for `Partition` impls:"],["partition_each_item","Helper function which may be used by some impls of `Permute`."]]});

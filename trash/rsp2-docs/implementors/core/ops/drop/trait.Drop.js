@@ -1,0 +1,4 @@
+(function() {var implementors = {};
+implementors["rsp2_fs_util"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/ops/drop/trait.Drop.html\" title=\"trait core::ops::drop::Drop\">Drop</a> for <a class=\"struct\" href=\"rsp2_fs_util/struct.TempDir.html\" title=\"struct rsp2_fs_util::TempDir\">TempDir</a>","synthetic":false,"types":["rsp2_fs_util::tempdir::TempDir"]}];
+implementors["rsp2_python"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/ops/drop/trait.Drop.html\" title=\"trait core::ops::drop::Drop\">Drop</a> for <a class=\"struct\" href=\"rsp2_python/struct.Guard.html\" title=\"struct rsp2_python::Guard\">Guard</a>","synthetic":false,"types":["rsp2_python::Guard"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

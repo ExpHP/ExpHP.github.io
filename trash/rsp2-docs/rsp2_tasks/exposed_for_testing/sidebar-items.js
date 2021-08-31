@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["ForceConstants","Force constants matrix, with only rows for atoms in `ForceConstants::DESIGNATED_CELL` stored."]]});

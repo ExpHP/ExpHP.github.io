@@ -1,0 +1,1 @@
+initSidebarItems({"macro":[["arg","Alternative to `clap_app!`."],["arg_impl",""]]});
