@@ -2928,7 +2928,7 @@ You should not see this message.&quot;</span>)]</span>
     };
 
     <span class="kw">let</span> <span class="ident">force_sets</span> <span class="op">=</span> <span class="ident">ForceSets</span> {
-        <span class="ident">sc_dims</span>: <span class="ident">sc</span>.<span class="ident">periods</span>(),
+        <span class="ident">sc_dims</span>: <span class="ident">sc</span>.<span class="ident">as_diagonal</span>().<span class="ident">expect</span>(<span class="string">&quot;only diagonal supercell supported&quot;</span>),
         <span class="ident">super_coords</span>: <span class="ident">super_coords</span>.<span class="ident">clone</span>(),
         <span class="ident">force_sets</span>: <span class="ident">force_sets</span>.<span class="ident">clone</span>().<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">row</span><span class="op">|</span> <span class="ident">row</span>.<span class="ident">into_iter</span>().<span class="ident">collect</span>()).<span class="ident">collect</span>(),
         <span class="ident">super_displacements</span>: <span class="ident">super_displacements</span>.<span class="ident">to_vec</span>(),

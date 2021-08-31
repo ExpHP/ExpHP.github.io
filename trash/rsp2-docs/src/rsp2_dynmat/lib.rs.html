@@ -1405,45 +1405,6 @@
 <span id="1402">1402</span>
 <span id="1403">1403</span>
 <span id="1404">1404</span>
-<span id="1405">1405</span>
-<span id="1406">1406</span>
-<span id="1407">1407</span>
-<span id="1408">1408</span>
-<span id="1409">1409</span>
-<span id="1410">1410</span>
-<span id="1411">1411</span>
-<span id="1412">1412</span>
-<span id="1413">1413</span>
-<span id="1414">1414</span>
-<span id="1415">1415</span>
-<span id="1416">1416</span>
-<span id="1417">1417</span>
-<span id="1418">1418</span>
-<span id="1419">1419</span>
-<span id="1420">1420</span>
-<span id="1421">1421</span>
-<span id="1422">1422</span>
-<span id="1423">1423</span>
-<span id="1424">1424</span>
-<span id="1425">1425</span>
-<span id="1426">1426</span>
-<span id="1427">1427</span>
-<span id="1428">1428</span>
-<span id="1429">1429</span>
-<span id="1430">1430</span>
-<span id="1431">1431</span>
-<span id="1432">1432</span>
-<span id="1433">1433</span>
-<span id="1434">1434</span>
-<span id="1435">1435</span>
-<span id="1436">1436</span>
-<span id="1437">1437</span>
-<span id="1438">1438</span>
-<span id="1439">1439</span>
-<span id="1440">1440</span>
-<span id="1441">1441</span>
-<span id="1442">1442</span>
-<span id="1443">1443</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* ************************************************************************ **
 ** This file is part of rsp2, and is licensed under EITHER the MIT license  **
@@ -2154,7 +2115,7 @@
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">permuted_fcs</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">clone</span>();
 
             <span class="comment">// skip 0 because &#39;self&#39; already has the data for 0 cell translation</span>
-            <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">1</span>..<span class="ident">sc</span>.<span class="ident">raw</span>.<span class="ident">periods</span>()[<span class="ident">axis</span>] {
+            <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">1</span>..<span class="ident">sc</span>.<span class="ident">raw</span>.<span class="ident">iteration_periods</span>()[<span class="ident">axis</span>] {
                 <span class="ident">permuted_fcs</span> <span class="op">=</span> <span class="ident">permuted_fcs</span>.<span class="ident">permuted_by</span>(<span class="kw-2">&amp;</span><span class="ident">deperm</span>);
                 <span class="self">self</span>.<span class="number">0</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span> <span class="op">+</span> <span class="ident">permuted_fcs</span>.<span class="number">0</span>.<span class="ident">clone</span>();
             }
@@ -2598,45 +2559,6 @@
     }
 }
 
-<span class="doccomment">/// Reading and writing NPZ.</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dwim&quot;</span>)]</span>
-<span class="kw">impl</span> <span class="ident">DynamicalMatrix</span> {
-    <span class="doccomment">/// Save a dynamical matrix in any of rsp2&#39;s natively-supported formats</span>
-    <span class="doccomment">/// based on file extension. (.npz, .json, .json.gz)</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_dwim</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw">impl</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">std::path::Path</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FailResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">as_ref</span>();
-        <span class="kw">let</span> <span class="ident">lower</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">to_string_lossy</span>().<span class="ident">to_ascii_lowercase</span>();
-        <span class="kw">let</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">std::io::BufWriter::new</span>(<span class="ident">path_abs::FileWrite::create</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>)<span class="question-mark">?</span>);
-        <span class="kw">if</span> <span class="ident">lower</span>.<span class="ident">ends_with</span>(<span class="string">&quot;.npz&quot;</span>) {
-            <span class="self">self</span>.<span class="ident">write_npz</span>(<span class="ident">writer</span>)<span class="question-mark">?</span>;
-        } <span class="kw">else</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">std::io::Write</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Box::new</span>(<span class="ident">writer</span>);
-            <span class="kw">if</span> <span class="ident">lower</span>.<span class="ident">ends_with</span>(<span class="string">&quot;.gz&quot;</span>) {
-                <span class="ident">writer</span> <span class="op">=</span> <span class="ident">Box::new</span>(<span class="ident">flate2::write::GzEncoder::new</span>(<span class="ident">writer</span>, <span class="ident">Default::default</span>()));
-            }
-            <span class="ident">serde_json::to_writer</span>(<span class="ident">writer</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">cereal</span>())<span class="question-mark">?</span>;
-        }
-        <span class="prelude-val">Ok</span>(())
-    }
-
-    <span class="doccomment">/// Load a dynamical matrix in any of rsp2&#39;s natively-supported formats</span>
-    <span class="doccomment">/// based on file extension. (.npz, .json, .json.gz)</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">load_dwim</span>(<span class="ident">path</span>: <span class="kw">impl</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">std::path::Path</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FailResult</span><span class="op">&lt;</span><span class="ident">DynamicalMatrix</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">as_ref</span>();
-        <span class="kw">let</span> <span class="ident">lower</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">to_string_lossy</span>().<span class="ident">to_ascii_lowercase</span>();
-        <span class="kw">let</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">std::io::BufReader::new</span>(<span class="ident">path_abs::FileRead::open</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>)<span class="question-mark">?</span>);
-        <span class="kw">if</span> <span class="ident">lower</span>.<span class="ident">ends_with</span>(<span class="string">&quot;.npz&quot;</span>) {
-            <span class="ident">DynamicalMatrix::read_npz</span>(<span class="ident">reader</span>)
-        } <span class="kw">else</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">std::io::Read</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Box::new</span>(<span class="ident">reader</span>);
-            <span class="kw">if</span> <span class="ident">lower</span>.<span class="ident">ends_with</span>(<span class="string">&quot;.gz&quot;</span>) {
-                <span class="ident">reader</span> <span class="op">=</span> <span class="ident">Box::new</span>(<span class="ident">flate2::read::GzDecoder::new</span>(<span class="ident">reader</span>));
-            }
-            <span class="kw">let</span> <span class="ident">cereal</span> <span class="op">=</span> <span class="ident">serde_json::from_reader</span>(<span class="ident">reader</span>)<span class="question-mark">?</span>;
-            <span class="ident">DynamicalMatrix::from_cereal</span>(<span class="ident">cereal</span>)
-        }
-    }
-}
 
 <span class="doccomment">/// Trivial wrapper type to help ensure eigenvalues don&#39;t get mistaken for frequencies.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Eigenvalues</span> { <span class="kw">pub</span> <span class="ident">eigenvalues</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span> }
