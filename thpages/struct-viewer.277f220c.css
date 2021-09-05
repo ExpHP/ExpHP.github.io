@@ -1,0 +1,39 @@
+.struct-nav .thing-selector+.thing-selector { margin-top: 6px; }
+.struct-view.use-grid { display: grid; }
+.struct-view.use-grid .row { display: contents; }
+.struct-view.use-grid .col-offset, .struct-view.use-grid .col-text { align-self: start; display: inline-block; }
+.struct-view.use-table .row { display: flex; }
+.struct-view.use-table .col-offset { flex-grow: 0; }
+.struct-view.use-table .col-text { flex-grow: 1; justify-self: flex-start; display: inline-block; }
+.struct-view { font-family: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal, monospace; }
+.struct-view .keyword { color: #eddfb3; font-weight: 400; }
+.struct-view .number, .struct-view .type.primitive { color: #a2d9af; }
+.struct-view .type.user { color: #8ee6ed; display: inline-block; }
+.struct-view a[href].type.user, .struct-view a[href]>.type.user { transition: background-color .1s; padding: 2px .5ch; margin: -2px -.5ch; border-radius: 5px; }
+.struct-view a[href].type.user:hover, .struct-view a[href]>.type.user:hover { transition: background-color .2s; background-color: hsla( 0, 0%, 80%, .1 ); }
+.struct-view .col-offset { white-space: pre; }
+.struct-view .col-text>.col-text-flex { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: start; }
+.struct-view .col-text>.col-text-flex>* { display: block; }
+.struct-view .col-text .col-text-wrapper { text-indent: -4ch; padding-left: 4ch; padding-right: 1ch; }
+.struct-view .col-text .col-text-wrapper>* { text-indent: 0; }
+.struct-view .col-text .col-text-wrapper>p { text-indent: -4ch; margin-block-start: 0; margin-block-end: 0; }
+.struct-view .col-text .col-text-wrapper>p>* { text-indent: 0; }
+.struct-view .col-text { justify-self: stretch; }
+.struct-view .struct-name, .struct-view .type.user { color: #edbd81; }
+.struct-view .field-name { color: #aad6dd; }
+.struct-view .comment { color: #6e6e6e; }
+.struct-view .field-offset-text { color: #62ca7b; background-color: rgba( 5, 70, 48, 0 ); padding: 2px; margin: -2px; border-radius: 5px; }
+.struct-view .field-offset-text:hover { background-color: rgba( 25, 199, 141, .1 ); }
+.struct-view [data-side=left].diff-oneside,
+.struct-view [data-side=left] .diff-oneside { background-color: rgba( 255, 0, 0, .2 ); }
+.struct-view [data-side=right].diff-oneside,
+.struct-view [data-side=right] .diff-oneside { background-color: rgba( 0, 255, 0, .175 ); }
+.struct-view span.diff-oneside { display: inline-block; }
+.struct-view .row:hover { background-color: hsla( 0, 0%, 100%, .1 ); }
+.struct-view .expander { z-index: 1; position: absolute; display: inline-block; font-weight: 700; margin-left: -2ch; text-align: center; width: 4ch; }
+.struct-view .expander:before { display: inline-block; font-weight: 700; vertical-align: middle; font-size: .7em; color: hsla( 0, 0%, 100%, 0 ); transition: transform .2s ease-in-out, font-size .05s linear, color .2s linear; content: ">"; }
+.struct-view .expander.expanded:before { transform: rotate( 90deg ); color: rgba( 255, 255, 128, .3 ); }
+.struct-view .row:hover .expander:before { transition: transform .2s ease-in-out, font-size .05s linear; color: rgba( 255, 255, 60, .6 ); }
+.struct-view .row:hover .expander:hover { cursor: pointer; }
+.struct-view .row:hover .expander:hover:before { font-size: 1.1em; }
+.noselect, .struct-view { -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
