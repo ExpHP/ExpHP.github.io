@@ -204,13 +204,17 @@ easeOut4 = addMode(flip(easeIn4));
 
 addMode(() => { throw new Error("mode 7 can't be represented as an easing function"); });
 
-// when calling this, supply extra_1/goal and extra_2/goal
-bezier = addMode((x, p1, p2) => {
+// supply y1 = initial, y2 = goal, p1 = extra_1, p2 = extra_2
+bezier = addMode((x, y1, y2, p1, p2) => {
+    if (y1 === undefined) y1 = 0;
+    if (y2 === undefined) y2 = 1;
     if (p1 === undefined) p1 = 0;
     if (p2 === undefined) p2 = 0;
 
-    // This is just what sympy gave me when I converted the assembly into python code
-    return p1*x*Math.pow(1 - x, 2) + p2*Math.pow(x, 2)*(x - 1) + Math.pow(x, 2)*(3 - 2*x);
+    const x2 = Math.pow(x, 2)
+    const ix = 1 - x
+    const ix2 = Math.pow(ix, 2)
+    return p1*x*ix2 - p2*x2*ix + y2*x2*(3 - 2*x) + y1*ix2*(2*x + 1);
 });
 
 easeInOut2 = addMode(split(easeIn2, easeOut2));
