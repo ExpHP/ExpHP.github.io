@@ -10,7 +10,7 @@
 .stats-table tr:nth-child(odd) { background-color: rgba( 34, 31, 49, .63 ); }
 .stats-table tr:nth-child(2n) { background-color: rgba( 40, 38, 57, .63 ); }
 .stats-table td { font-family: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal, monospace; text-align: right; }
-.stats-table table { border-collapse: initial; border: none; border-spacing: 0; }
+.stats-table table { border-collapse: initial; padding: 0; border: none; border-spacing: 0; }
 .stats-table tr { border: none; }
 .stats-table td:not(:first-child), .stats-table th:not(:first-child) { border-left: none; }
 .stats-table tr:not(:first-child) td, .stats-table tr:not(:first-child) th { border-top: none; }
